@@ -1,0 +1,66 @@
+/* App.css */
+
+/* root 컨테이너 */
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 기본 리셋 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow-y: auto;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #f9a8d4;
+  border-radius: 3px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+body {
+  background-image: url("/src/assets/images/grunge-wall-1920x1080.png");
+  background-repeat: repeat;
+  background-size: auto;
+}
+button {
+  font-family: "MapoGoldenPierA";
+  letter-spacing: 1px;
+}
+/* box model 통일 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: "MapoGoldenPierA";
+  src: url("https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff")
+    format("woff");
+  font-display: swap;
+}
+/* 기본 폰트 / 배경은 페이지 컴포넌트에서 관리 */
+body {
+  font-family: "MapoGoldenPierA";
+}
+textarea,
+input {
+  font-family: "MapoGoldenPierA";
+}
