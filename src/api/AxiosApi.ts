@@ -39,14 +39,21 @@ axiosApi.interceptors.response.use(
     const status = error.response?.status;
     const message = error.response?.data?.message;
 
-    // 인증 만료 → 전역 로그아웃
-    if (status === 401) {
-      useAuthStore.getState().clearToken();
-
-      // SPA라면 navigate 대신 location 사용 (interceptor에서는 hook 사용 불가)
-      window.location.href = "/login";
+    if (status === 403) {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "/";
+      }
     }
 
+    if (status === 401) {
+      // 예: 토큰 만료 에러 코드가 명확할 때만
+      if (error.response?.data?.code === "TOKEN_EXPIRED") {
+        useAuthStore.getState().clearAuth();
+        window.location.href = "/login";
+      }
+    }
     // 서버 메시지를 error.message로 통일
     if (message) {
       error.message = message;

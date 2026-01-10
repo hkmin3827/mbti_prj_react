@@ -1,5 +1,9 @@
 import type { PlaceResponse } from "../../types/placeResponse";
-import { MyViewCard } from "../../styles/mypage/Card.styles";
+import {
+  LikeBadge,
+  LikeBadgeWrapper,
+  MyViewCard,
+} from "../../styles/mypage/Card.styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Name,
@@ -21,6 +25,15 @@ export function BookMarkCard({ place }: { place: PlaceResponse }) {
         })
       }
     >
+      {" "}
+      <LikeBadgeWrapper>
+        {place.bookmarkedContext === "SELF" && (
+          <LikeBadge title="나">🖤</LikeBadge>
+        )}
+        {place.bookmarkedContext === "PARTNER" && (
+          <LikeBadge title="연인">🩷</LikeBadge>
+        )}
+      </LikeBadgeWrapper>
       <Inner>
         <Name>{place.name}</Name>
         <Category>{place.category}</Category>

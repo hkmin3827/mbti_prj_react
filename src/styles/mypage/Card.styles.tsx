@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const MyViewCard = styled.div`
+  position: relative;
   flex: 0 0 15%; /* 한 화면에 약 6개 */
   min-width: 15%;
   padding: 20px 15px;
@@ -17,7 +18,7 @@ export const MyViewCard = styled.div`
   }
 
   @media (max-width: 1200px) {
-    flex: 0 0 20%;
+    flex: 0 0 50%;
     min-width: 20%;
   }
 
@@ -52,4 +53,29 @@ export const ReviewCard = styled.div`
     flex: 0 0 70%;
     min-width: 70%;
   }
+`;
+export const LikeBadgeWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  gap: 4px;
+
+  z-index: 5;
+`;
+export const LikeBadge = styled.div`
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  line-height: 1;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 `;

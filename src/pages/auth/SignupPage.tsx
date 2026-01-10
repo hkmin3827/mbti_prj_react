@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   PageWrapper,
   SignupCard,
@@ -47,6 +47,14 @@ const SignupPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === "password") {
+      passwordRef.current?.setCustomValidity("");
+      passwordConfirmRef.current?.setCustomValidity("");
+    }
+
+    if (name === "passwordConfirm") {
+      passwordConfirmRef.current?.setCustomValidity("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

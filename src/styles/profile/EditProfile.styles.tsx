@@ -25,6 +25,7 @@ export const ContextWrapper = styled.div`
 `;
 
 export const Panel = styled.div`
+  position: relative;
   width: 90%;
   height: 90%;
   margin: auto;
@@ -116,7 +117,8 @@ export const Label = styled.span`
   font-size: 14px;
   color: #fff;
   flex-shrink: 0;
-  white-space: nowrap; /* 🔥 "이메일"이 줄바꿈 안 되도록 */
+  white-space: nowrap;
+  margin-top: 10px;
 `;
 export const ProfileInput = styled.input`
   width: 100%;
@@ -125,7 +127,7 @@ export const ProfileInput = styled.input`
   border-radius: 12px;
   border: 1px solid #ddd;
   font-size: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   &:focus {
     outline: none;
@@ -136,7 +138,7 @@ export const ErrorText = styled.p`
   margin-top: -8px;
   margin-bottom: 8px;
   font-size: 12px;
-  color: #e11d48;
+  color: #fff;
 `;
 export const ImageUpload = styled.div`
   display: flex;
@@ -196,6 +198,11 @@ export const InfoWrapper = styled.div`
   min-height: 250px;
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 32px;
+  }
 `;
 
 export const BasicInfo = styled.div`
@@ -205,6 +212,11 @@ export const BasicInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    border-bottom: 1px solid #fff;
+  }
 `;
 export const MbtiInfo = styled.div`
   flex: 1; /* ⭐ 핵심 */
@@ -233,4 +245,44 @@ export const MbtiWrapper = styled.div`
   display: flex;
   width: 100%;
   align-items: stretch; /* ⭐ 자식 높이 늘리기 */
+`;
+
+// 하단 왼쪽 (계정 탈퇴)
+export const WithdrawButton = styled.button`
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    color: #ef4444;
+    text-decoration: underline;
+  }
+`;
+
+// 상단 오른쪽 (로그아웃)
+export const LogoutButton = styled.button`
+  position: absolute;
+  right: 24px;
+  top: 24px;
+
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: #f472b6;
+  }
+
+  span {
+    font-size: 16px;
+  }
 `;

@@ -133,6 +133,7 @@ export function PlaceDetailCard({
       </Header>
 
       <Body>
+        {place.description && <Meta>{place.description}</Meta>}
         <Meta>
           ⭐ {place.rating ?? "-"}({reviewCount}) · {place.category}
         </Meta>
@@ -151,9 +152,6 @@ export function PlaceDetailCard({
         <Meta>{place.address}</Meta>
         {place.telnum && <Meta>📞 {place.telnum}</Meta>}
 
-        {place.description && (
-          <p style={{ marginTop: 12 }}>{place.description}</p>
-        )}
         <ReactionContainer>
           <ReactionButton
             $active={reaction === "LIKE"}

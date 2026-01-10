@@ -1,14 +1,13 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 export default function ProtectedRoute() {
-  const { user, loading } = useContext(UserContext);
+  const { accessToken, hasHydrated } = useAuthStore();
   const location = useLocation();
 
-  if (loading) return null;
+  if (!hasHydrated) return <div>Loading...</div>;
 
-  if (!user) {
+  if (!accessToken) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

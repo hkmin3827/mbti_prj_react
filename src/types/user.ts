@@ -1,6 +1,7 @@
 export interface User {
   id: number;
   email: string | null;
+  role: "ADMIN" | "USER";
   name: string;
   provider: string;
   oauthId: string;

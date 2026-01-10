@@ -54,8 +54,22 @@ export default function PlaceDetailDrawer() {
   useEffect(() => {
     if (!placeId) return;
 
-    getPlaceDetailApi(Number(placeId), "SELF").then(setPlace);
-  }, [placeId]);
+    const fetchPlace = async () => {
+      try {
+        const data = await getPlaceDetailApi(Number(placeId), "SELF");
+        setPlace(data);
+      } catch (e: any) {
+        if (e?.response?.status === 403) {
+          alert("해당 장소는 비활성화되어 접근할 수 없습니다.");
+          return;
+        }
+        alert("장소 정보를 불러올 수 없습니다.");
+        return;
+      }
+    };
+
+    fetchPlace();
+  }, [placeId, navigate]);
 
   useEffect(() => {
     if (!place) return;
@@ -116,6 +130,7 @@ export default function PlaceDetailDrawer() {
         </Header>
 
         <Body>
+          {place.description && <Meta>{place.description}</Meta>}
           <Meta>
             ⭐ {place.rating ?? "-"}({reviewCount}) · {place.category}
           </Meta>
@@ -134,21 +149,13 @@ export default function PlaceDetailDrawer() {
           <Meta>{place.address}</Meta>
           {place.telnum && <Meta>📞 {place.telnum}</Meta>}
 
-          {place.description && (
-            <p style={{ marginTop: 12 }}>{place.description}</p>
-          )}
-
           <ThinDivider />
           <ReviewSection>
             <ReviewHeader>
               <ReviewTitle>리뷰 ({reviewCount})</ReviewTitle>
 
               <ReviewMoreButton
-                onClick={() =>
-                  navigate(`/places/${place.id}/reviews`, {
-                    state: { background: location.state?.background },
-                  })
-                }
+                onClick={() => navigate(`/places/${place.id}/reviews`)}
               >
                 더보기
               </ReviewMoreButton>

@@ -31,6 +31,18 @@ export const ScrollArea = styled.div`
   height: 100%;
   overflow-y: auto;
   padding: 32px 24px 96px; /* ⭐ 버튼 높이만큼 확보 */
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #f9a8d4;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;
 
 export const Title = styled.h3`

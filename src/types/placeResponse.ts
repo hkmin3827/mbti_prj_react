@@ -1,3 +1,4 @@
+import type { MbtiContext } from "../constant/MbtiContext";
 import type { Category } from "./category";
 
 export type PlaceResponse = {
@@ -6,4 +7,6 @@ export type PlaceResponse = {
   category: Category;
   address: string;
   rating: number;
+  likedContexts: MbtiContext[];
+  bookmarkedContext?: MbtiContext; // 저장
 };

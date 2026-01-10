@@ -28,3 +28,13 @@ export const getMeApi = async (): Promise<User> => {
   const { data } = await axiosApi.get("/api/users/me");
   return data;
 };
+
+export interface WithdrawReq {
+  reason?: string;
+}
+
+export const withdrawApi = (data: { confirmText: string }) => {
+  return axiosApi.delete("/auth/withdraw", {
+    data,
+  });
+};

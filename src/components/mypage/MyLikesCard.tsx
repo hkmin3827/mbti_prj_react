@@ -1,5 +1,8 @@
-import type { PlaceResponse } from "../../types/placeResponse";
-import { MyViewCard } from "../../styles/mypage/Card.styles";
+import {
+  LikeBadge,
+  LikeBadgeWrapper,
+  MyViewCard,
+} from "../../styles/mypage/Card.styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Name,
@@ -8,8 +11,9 @@ import {
   Rating,
   Inner,
 } from "../../styles/mypage/ViewCard.styles";
+import type { PlaceResponse } from "../../types/placeResponse";
 
-export function BookMarkCard({ place }: { place: PlaceResponse }) {
+export function MyLikesCard({ place }: { place: PlaceResponse }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -21,6 +25,16 @@ export function BookMarkCard({ place }: { place: PlaceResponse }) {
         })
       }
     >
+      {(place.likedContexts?.length ?? 0) > 0 && (
+        <LikeBadgeWrapper>
+          {place.likedContexts?.includes("SELF") && (
+            <LikeBadge title="나">🖤</LikeBadge>
+          )}
+          {place.likedContexts?.includes("PARTNER") && (
+            <LikeBadge title="연인">🩷</LikeBadge>
+          )}
+        </LikeBadgeWrapper>
+      )}
       <Inner>
         <Name>{place.name}</Name>
         <Category>{place.category}</Category>

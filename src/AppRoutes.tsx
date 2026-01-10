@@ -16,6 +16,10 @@ import EditProfile from "./pages/profile/EditProfile";
 import HomePage from "./pages/HomePage";
 import ProtectedRoute from "./guard/ProtectedRoute";
 import EditMbtiProfile from "./pages/profile/EditMbtiProfile";
+import PlaceReviews from "./pages/review/PlaceReviews";
+import AdminRoute from "./guard/AdminRoute";
+import AdminPage from "./pages/admin/AdminPage";
+import { UserGate } from "./guard/UserGate";
 
 export default function AppRoutes() {
   const location = useLocation();
@@ -32,21 +36,32 @@ export default function AppRoutes() {
         <Route path="/profile/mbtiselect" element={<CreateMbtiProfile />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/recommend" element={<RecommendPage />} />
-            <Route path="/places/:placeId" element={<PlaceDetailDrawer />} />
-            <Route path="/reviews" element={<ReviewPage />} />
-            <Route path="/reviews/:reviewId" element={<ReviewDetailDrawer />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/reviews/me" element={<MyReviews />} />
-            <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/profile/mbtiedit" element={<EditMbtiProfile />} />
+          <Route element={<UserGate />}>
+            <Route element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/recommend" element={<RecommendPage />} />
+              <Route path="/places/:placeId" element={<PlaceDetailDrawer />} />
+              <Route
+                path="/places/:placeId/reviews"
+                element={<PlaceReviews />}
+              />
+              <Route path="/reviews" element={<ReviewPage />} />
+              <Route
+                path="/reviews/:reviewId"
+                element={<ReviewDetailDrawer />}
+              />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/reviews/me" element={<MyReviews />} />
+              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route path="/profile/mbtiedit" element={<EditMbtiProfile />} />
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminPage />} />
+            </Route>
           </Route>
         </Route>
       </Routes>
 
-      {/* 2️⃣ 드로어 라우트 */}
       {background && (
         <Routes>
           <Route element={<ProtectedRoute />}>

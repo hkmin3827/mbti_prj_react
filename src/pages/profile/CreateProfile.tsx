@@ -32,8 +32,8 @@ interface ValidationErrors {
 export default function CreateProfile() {
   const { user } = useContext(UserContext) as { user: User | null };
 
-  const [name, setName] = useState<string>(user?.name ?? "");
-  const [telnum, setTelnum] = useState<string>(user?.telnum ?? "");
+  const [name, setName] = useState<string>(user!.name ?? "");
+  const [telnum, setTelnum] = useState<string>(user!.telnum ?? "");
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     user?.profileImage ?? null
   );
@@ -46,10 +46,10 @@ export default function CreateProfile() {
   const initializedRef = useRef(false);
 
   useEffect(() => {
-    if (!user || initializedRef.current) return;
+    if (initializedRef.current) return;
 
-    setName(user.name ?? "");
-    setTelnum(user.telnum ?? "");
+    setName(user!.name ?? "");
+    setTelnum(user!.telnum ?? "");
 
     initializedRef.current = true;
   }, [user]);
@@ -72,15 +72,16 @@ export default function CreateProfile() {
 
     const newLocal = /^[가-힣a-zA-Z0-9]+$/;
     if (!name.trim()) {
-      newErrors.name = "이름은 필수 입력입니다.";
+      newErrors.name = "🚨이름은 필수 입력입니다.";
     } else if (!newLocal.test(name)) {
-      newErrors.name = "이름은 한글, 영문 대소문자, 숫자만 입력할 수 있습니다.";
+      newErrors.name =
+        "🚨이름은 한글, 영문 대소문자, 숫자만 입력할 수 있습니다.";
     }
 
     if (!telnum.trim()) {
-      newErrors.telnum = "전화번호는 필수 입력입니다.";
+      newErrors.telnum = "🚨전화번호는 필수 입력입니다.";
     } else if (!/^010\d{8}$/.test(telnum)) {
-      newErrors.telnum = "전화번호는 010으로 시작하는 11자리여야 합니다.";
+      newErrors.telnum = "🚨전화번호는 010으로 시작하는 11자리여야 합니다.";
     }
 
     setErrors(newErrors);
@@ -89,8 +90,10 @@ export default function CreateProfile() {
 
   const handleNext = async (): Promise<void> => {
     // validation
-    if (!validate()) return;
-
+    if (!validate()) {
+      alert("이름 또는 전화번호 입력이 올바르지 않습니다. 다시 시도해주세요.");
+      return;
+    }
     try {
       let profileImageUrl: string | null = user?.profileImage ?? null;
 

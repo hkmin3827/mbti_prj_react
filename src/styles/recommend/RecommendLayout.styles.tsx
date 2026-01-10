@@ -1,4 +1,3 @@
-// src/styles/RecommendLayout.styles.ts
 import styled from "styled-components";
 
 export const PageGrid = styled.div<{ $hasDetail: boolean }>`

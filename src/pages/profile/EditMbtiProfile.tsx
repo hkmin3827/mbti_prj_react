@@ -23,14 +23,12 @@ export default function EditMbtiProfile() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
-
-    if (user.mbti) {
-      setMbti(user.mbti as MbtiType);
+    if (user!.mbti) {
+      setMbti(user!.mbti as MbtiType);
     }
 
-    if (user.partnerMbti) {
-      setPartnerMbti(user.partnerMbti as MbtiType);
+    if (user!.partnerMbti) {
+      setPartnerMbti(user!.partnerMbti as MbtiType);
     }
   }, [user]);
 
@@ -82,7 +80,7 @@ export default function EditMbtiProfile() {
 
           <Section>
             <MbtiRadioGrid
-              title="Lover's MBTI (선택)"
+              title="Lover's MBTI"
               value={partnerMbti}
               onChange={setPartnerMbti}
             />

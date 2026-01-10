@@ -35,6 +35,7 @@ export const Viewport = styled.div`
   flex: 1;
   overflow: hidden; /* ⭐ 여기서만 숨김 */
   padding-top: 8px; /* ⭐ hover 여유 */
+  overflow-x: auto;
 `;
 
 export const CardList = styled.div`

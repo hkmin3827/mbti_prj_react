@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import { useContext, useEffect, useState } from "react";
 import {
   getMostViewedPlacesByMbti,
@@ -42,14 +41,11 @@ export default function HomePage() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!user) return;
-
-    getMostViewedPlacesByMbti(user.mbti, 5).then((res) => {
-      console.log("SELF PLACES", res);
+    getMostViewedPlacesByMbti(user!.mbti, 5).then((res) => {
       setSelfPlaces(res);
     });
 
-    if (user.partnerMbti) {
+    if (user?.partnerMbti) {
       getMostViewedPlacesByMbti(user.partnerMbti, 5).then(setPartnerPlaces);
     }
 
@@ -64,29 +60,27 @@ export default function HomePage() {
             <CardTitle>{user?.mbti}가 많이 본 플레이스 TOP5</CardTitle>
             <ThinDivider />
             <CardList>
-              {selfPlaces
-                .filter((item) => item.place)
-                .map(({ place }, index) => (
-                  <CardItem
-                    key={place.id}
-                    onClick={() =>
-                      navigate(`/places/${place.id}`, {
-                        state: { background: location },
-                      })
-                    }
-                  >
-                    {index < 3 && (
-                      <RankBadge $rank={index}>
-                        {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
-                      </RankBadge>
-                    )}
+              {selfPlaces.map((place, index) => (
+                <CardItem
+                  key={place.placeId}
+                  onClick={() =>
+                    navigate(`/places/${place.placeId}`, {
+                      state: { background: location },
+                    })
+                  }
+                >
+                  {index < 3 && (
+                    <RankBadge $rank={index}>
+                      {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
+                    </RankBadge>
+                  )}
 
-                    {place.name}
-                    <span style={{ fontSize: "12px", color: "#666" }}>
-                      {place.address}
-                    </span>
-                  </CardItem>
-                ))}
+                  {place.name}
+                  <span style={{ fontSize: "12px", color: "#666" }}>
+                    {place.address}
+                  </span>
+                </CardItem>
+              ))}
             </CardList>
           </Card>
 
@@ -121,28 +115,26 @@ export default function HomePage() {
                 <ThinDivider />
 
                 <CardList>
-                  {partnerPlaces
-                    .filter((item) => item.place)
-                    .map(({ place }, index) => (
-                      <CardItem
-                        key={place.id}
-                        onClick={() =>
-                          navigate(`/places/${place.id}`, {
-                            state: { background: location },
-                          })
-                        }
-                      >
-                        {index < 3 && (
-                          <RankBadge $rank={index}>
-                            {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
-                          </RankBadge>
-                        )}
-                        {place.name}
-                        <span style={{ fontSize: "12px", color: "#666" }}>
-                          {place.address}
-                        </span>
-                      </CardItem>
-                    ))}
+                  {partnerPlaces.map((place, index) => (
+                    <CardItem
+                      key={place.placeId}
+                      onClick={() =>
+                        navigate(`/places/${place.placeId}`, {
+                          state: { background: location },
+                        })
+                      }
+                    >
+                      {index < 3 && (
+                        <RankBadge $rank={index}>
+                          {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
+                        </RankBadge>
+                      )}
+                      {place.name}
+                      <span style={{ fontSize: "12px", color: "#666" }}>
+                        {place.address}
+                      </span>
+                    </CardItem>
+                  ))}
                 </CardList>
               </>
             ) : (

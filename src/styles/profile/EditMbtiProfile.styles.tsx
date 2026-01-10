@@ -7,6 +7,9 @@ export const Page = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 32px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 export const Card = styled.div`

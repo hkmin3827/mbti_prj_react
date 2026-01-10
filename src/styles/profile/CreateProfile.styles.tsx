@@ -145,7 +145,7 @@ export const ErrorText = styled.p`
   margin-top: -8px;
   margin-bottom: 8px;
   font-size: 12px;
-  color: #e11d48;
+  color: #fff;
 `;
 export const ImageUpload = styled.div`
   display: flex;

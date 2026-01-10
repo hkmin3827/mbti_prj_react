@@ -7,8 +7,8 @@ export interface PlaceSnapshot {
   roadAddress?: string;
   latitude: number;
   longitude: number;
-  category_name: string;
-  category_group_code: string;
+  categoryName: string;
+  categoryGroupCode: string;
   phone?: string;
 }
 export interface PlaceViewResponse {

@@ -5,8 +5,11 @@ import { UserContext } from "../../context/UserContext";
 
 const OAuthCallback = () => {
   const navigate = useNavigate();
-  const setToken = useAuthStore((state) => state.setToken);
   const { fetchMe } = useContext(UserContext);
+
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -23,12 +26,26 @@ const OAuthCallback = () => {
 
         const me = await fetchMe();
 
+        if (!me.isActive) {
+          clearAuth();
+          alert("비활성화된 계정입니다. 관리자에게 문의하세요.");
+          navigate("/login", { replace: true });
+          return;
+        }
+
+        setUser({
+          id: me.id,
+          email: me.email,
+          role: me.role,
+        });
+
         if (!me.profileCompleted) {
           navigate("/profile/create", { replace: true });
         } else {
-          navigate("/recommend", { replace: true });
+          navigate("/", { replace: true });
         }
       } catch {
+        alert("로그인 중 오류가 발생하였습니다.");
         navigate("/login", { replace: true });
       }
     };

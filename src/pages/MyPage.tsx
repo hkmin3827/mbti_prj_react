@@ -21,6 +21,7 @@ import { PlaceHistoryCard } from "../components/mypage/PlaceHistoryCard";
 import { MyReviewCard } from "../components/mypage/MyReviewCard";
 import { useNavigate } from "react-router-dom";
 import { BookMarkCard } from "../components/mypage/BookMarkCard";
+import { MyLikesCard } from "../components/mypage/MyLikesCard";
 
 export default function MyPage() {
   const [reviews, setReviews] = useState<ReviewResponse[]>([]);
@@ -61,7 +62,12 @@ export default function MyPage() {
       </Section>
 
       <Section>
-        <Title>❤️ 좋아하는 플레이스</Title>
+        <Title>
+          ❤️ 좋아하는 플레이스
+          <span style={{ fontSize: "13px", marginLeft: "20px" }}>
+            🖤 you 🩷 lover
+          </span>
+        </Title>
 
         <CarouselRow
           canPrev={likesCarousel.canPrev}
@@ -70,13 +76,18 @@ export default function MyPage() {
           onNext={likesCarousel.next}
         >
           {likesCarousel.visibleItems.map((place) => (
-            <BookMarkCard key={place.id} place={place} />
+            <MyLikesCard key={place.id} place={place} />
           ))}
         </CarouselRow>
       </Section>
 
       <Section>
-        <Title>⭐ 저장한 플레이스</Title>
+        <Title>
+          ⭐ 저장한 플레이스{" "}
+          <span style={{ fontSize: "13px", marginLeft: "20px" }}>
+            🖤 you 🩷 lover
+          </span>
+        </Title>
 
         <CarouselRow
           canPrev={bookMarkCarousel.canPrev}

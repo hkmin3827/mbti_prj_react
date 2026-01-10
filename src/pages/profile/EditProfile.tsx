@@ -19,6 +19,8 @@ import {
   MbtiTitle,
   Mbti,
   MbtiWrapper,
+  LogoutButton,
+  WithdrawButton,
 } from "../../styles/profile/EditProfile.styles.tsx";
 import { UserContext } from "../../context/UserContext.tsx";
 import { useState } from "react";
@@ -27,6 +29,8 @@ import { getPresignedUrlApi } from "../../api/s3.api.ts";
 import { handleApiError } from "../../utils/handleApiError.ts";
 import { useNavigate } from "react-router-dom";
 import { EditButton } from "../../styles/review/ReviewDetailDrawer.styles.tsx";
+import { withdrawApi } from "../../api/auth.api.ts";
+import { useAuthStore } from "../../store/authStore.tsx";
 
 interface ValidationErrors {
   name?: string;
@@ -48,11 +52,9 @@ export default function EditProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) return;
-
-    setName(user.name ?? "");
-    setTelnum(user.telnum ?? "");
-    setPreviewUrl(user.profileImage ?? null);
+    setName(user!.name ?? "");
+    setTelnum(user!.telnum ?? "");
+    setPreviewUrl(user!.profileImage ?? null);
   }, [user]);
 
   // 파일 선택 시
@@ -73,15 +75,16 @@ export default function EditProfile() {
 
     const newLocal = /^[가-힣a-zA-Z0-9]+$/;
     if (!name.trim()) {
-      newErrors.name = "이름은 필수 입력입니다.";
+      newErrors.name = "🚨이름은 필수 입력입니다.";
     } else if (!newLocal.test(name)) {
-      newErrors.name = "이름은 한글, 영문 대소문자, 숫자만 입력할 수 있습니다.";
+      newErrors.name =
+        "🚨이름은 한글, 영문 대소문자, 숫자만 입력할 수 있습니다.";
     }
 
     if (!telnum.trim()) {
-      newErrors.telnum = "전화번호는 필수 입력입니다.";
+      newErrors.telnum = "🚨전화번호는 필수 입력입니다.";
     } else if (!/^010\d{8}$/.test(telnum)) {
-      newErrors.telnum = "전화번호는 010으로 시작하는 11자리여야 합니다.";
+      newErrors.telnum = "🚨전화번호는 010으로 시작하는 11자리여야 합니다.";
     }
 
     setErrors(newErrors);
@@ -90,8 +93,10 @@ export default function EditProfile() {
 
   const handleSubmit = async (): Promise<void> => {
     // validation
-    if (!validate()) return;
-
+    if (!validate()) {
+      alert("이름 또는 전화번호 입력이 올바르지 않습니다. 다시 시도해주세요.");
+      return;
+    }
     try {
       let profileImageUrl: string | null = user?.profileImage ?? null;
 
@@ -137,9 +142,57 @@ export default function EditProfile() {
     }
   };
 
+  const handleLogout = (silent?: boolean) => {
+    const { clearAuth: clearToken } = useAuthStore.getState();
+
+    // authStore 전체 초기화 (token + user + role)
+    clearToken();
+
+    // 혹시 남아 있을 수 있는 직접 저장 토큰 제거
+    localStorage.removeItem("accessToken");
+
+    if (!silent) {
+      alert("로그아웃되었습니다.");
+    }
+
+    navigate("/login", { replace: true });
+  };
+  const WITHDRAW_CONFIRM_TEXT = "탈퇴합니다";
+
+  const handleWithdraw = async () => {
+    const confirmed = window.confirm(
+      "계정을 탈퇴하면 모든 데이터가 삭제됩니다. 계속하시겠습니까?"
+    );
+    if (!confirmed) return;
+
+    const input = window.prompt(
+      `계정을 탈퇴하려면 아래 문구를 정확히 입력하세요.\n\n"${WITHDRAW_CONFIRM_TEXT}"`
+    );
+
+    if (input === null) return; // 취소
+    if (input !== WITHDRAW_CONFIRM_TEXT) {
+      alert("탈퇴 확인 문구가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      await withdrawApi({ confirmText: input });
+      alert("탈퇴가 완료되었습니다.");
+      handleLogout(true); // 토큰 제거 + 라우팅
+    } catch (error) {
+      handleApiError(error, {
+        400: (msg) => alert(msg),
+        default: () => alert("탈퇴 처리 중 오류가 발생했습니다."),
+      });
+    }
+  };
   return (
     <PageContainer>
       <Panel key={user?.id}>
+        <LogoutButton onClick={handleLogout}>
+          <span className="material-symbols-outlined">logout</span>
+          <p>로그아웃</p>
+        </LogoutButton>
         <ContextWrapper>
           <PanelTitle>Profile 수정</PanelTitle>
           <PanelContent>
@@ -213,7 +266,8 @@ export default function EditProfile() {
               </MbtiInfo>
             </InfoWrapper>
           </PanelContent>
-        </ContextWrapper>
+        </ContextWrapper>{" "}
+        <WithdrawButton onClick={handleWithdraw}>계정 탈퇴</WithdrawButton>
         <SubmitButton onClick={handleSubmit}>저장</SubmitButton>
       </Panel>
     </PageContainer>

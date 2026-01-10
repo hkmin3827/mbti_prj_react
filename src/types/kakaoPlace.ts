@@ -5,8 +5,8 @@ export type KakaoPlace = {
   lat: number;
   lng: number;
   address: string;
-  road_address: string;
-  category_name: string;
-  category_group_code: string;
+  roadAddress: string;
+  categoryName: string;
+  categoryGroupCode: string;
   phone: string;
 };

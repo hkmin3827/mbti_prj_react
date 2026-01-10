@@ -32,6 +32,7 @@ const LoginPage = () => {
     password: "",
   });
   const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -51,14 +52,26 @@ const LoginPage = () => {
       setLoading(true);
 
       const res = await loginApi(form);
+
       setToken(res.token);
-      localStorage.setItem("accessToken", res.token);
 
       const me = await fetchMe();
+
+      if (!me.isActive) {
+        useAuthStore.getState().clearAuth();
+        alert("비활성화된 계정입니다. 관리자에게 문의하세요.");
+        return;
+      }
+      setUser({
+        id: me.id,
+        email: me.email,
+        role: me.role, // ADMIN / USER
+      });
+
       if (!me.profileCompleted) {
         navigate("/profile/create");
       } else {
-        navigate("/recommend");
+        navigate("/");
       }
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
