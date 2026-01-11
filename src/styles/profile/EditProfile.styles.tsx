@@ -216,6 +216,7 @@ export const BasicInfo = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     border-bottom: 1px solid #fff;
+    border-right: none;
   }
 `;
 export const MbtiInfo = styled.div`

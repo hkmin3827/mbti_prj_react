@@ -22,6 +22,7 @@ import { MyReviewCard } from "../components/mypage/MyReviewCard";
 import { useNavigate } from "react-router-dom";
 import { BookMarkCard } from "../components/mypage/BookMarkCard";
 import { MyLikesCard } from "../components/mypage/MyLikesCard";
+import { MobileHorizontalList } from "../components/MobileHorizontalList";
 
 export default function MyPage() {
   const [reviews, setReviews] = useState<ReviewResponse[]>([]);
@@ -42,6 +43,7 @@ export default function MyPage() {
   const viewHistoryCarousel = useCarousel(viewHistories, 6);
   const bookMarkCarousel = useCarousel(bookMarks, 6);
   const likesCarousel = useCarousel(likes, 6);
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <PageWrapper>
@@ -49,16 +51,24 @@ export default function MyPage() {
       <Section>
         <Title>👀 최근 본 플레이스</Title>
 
-        <CarouselRow
-          canPrev={viewHistoryCarousel.canPrev}
-          canNext={viewHistoryCarousel.canNext}
-          onPrev={viewHistoryCarousel.prev}
-          onNext={viewHistoryCarousel.next}
-        >
-          {viewHistoryCarousel.visibleItems.map((place) => (
-            <PlaceHistoryCard key={place.id} place={place} />
-          ))}
-        </CarouselRow>
+        {isMobile ? (
+          <MobileHorizontalList>
+            {viewHistories.map((place) => (
+              <PlaceHistoryCard key={place.id} place={place} />
+            ))}
+          </MobileHorizontalList>
+        ) : (
+          <CarouselRow
+            canPrev={viewHistoryCarousel.canPrev}
+            canNext={viewHistoryCarousel.canNext}
+            onPrev={viewHistoryCarousel.prev}
+            onNext={viewHistoryCarousel.next}
+          >
+            {viewHistoryCarousel.visibleItems.map((place) => (
+              <PlaceHistoryCard key={place.id} place={place} />
+            ))}
+          </CarouselRow>
+        )}
       </Section>
 
       <Section>
@@ -69,16 +79,24 @@ export default function MyPage() {
           </span>
         </Title>
 
-        <CarouselRow
-          canPrev={likesCarousel.canPrev}
-          canNext={likesCarousel.canNext}
-          onPrev={likesCarousel.prev}
-          onNext={likesCarousel.next}
-        >
-          {likesCarousel.visibleItems.map((place) => (
-            <MyLikesCard key={place.id} place={place} />
-          ))}
-        </CarouselRow>
+        {isMobile ? (
+          <MobileHorizontalList>
+            {likes.map((place) => (
+              <MyLikesCard key={place.id} place={place} />
+            ))}
+          </MobileHorizontalList>
+        ) : (
+          <CarouselRow
+            canPrev={likesCarousel.canPrev}
+            canNext={likesCarousel.canNext}
+            onPrev={likesCarousel.prev}
+            onNext={likesCarousel.next}
+          >
+            {likesCarousel.visibleItems.map((place) => (
+              <MyLikesCard key={place.id} place={place} />
+            ))}
+          </CarouselRow>
+        )}
       </Section>
 
       <Section>
@@ -89,16 +107,24 @@ export default function MyPage() {
           </span>
         </Title>
 
-        <CarouselRow
-          canPrev={bookMarkCarousel.canPrev}
-          canNext={bookMarkCarousel.canNext}
-          onPrev={bookMarkCarousel.prev}
-          onNext={bookMarkCarousel.next}
-        >
-          {bookMarkCarousel.visibleItems.map((place) => (
-            <BookMarkCard key={place.id} place={place} />
-          ))}
-        </CarouselRow>
+        {isMobile ? (
+          <MobileHorizontalList>
+            {bookMarks.map((place) => (
+              <BookMarkCard key={place.id} place={place} />
+            ))}
+          </MobileHorizontalList>
+        ) : (
+          <CarouselRow
+            canPrev={bookMarkCarousel.canPrev}
+            canNext={bookMarkCarousel.canNext}
+            onPrev={bookMarkCarousel.prev}
+            onNext={bookMarkCarousel.next}
+          >
+            {bookMarkCarousel.visibleItems.map((place) => (
+              <BookMarkCard key={place.id} place={place} />
+            ))}
+          </CarouselRow>
+        )}
       </Section>
 
       <Section>
@@ -112,16 +138,24 @@ export default function MyPage() {
           </HeaderRight>
         </SectionHeader>
 
-        <CarouselRow
-          canPrev={reviewCarousel.canPrev}
-          canNext={reviewCarousel.canNext}
-          onPrev={reviewCarousel.prev}
-          onNext={reviewCarousel.next}
-        >
-          {reviewCarousel.visibleItems.map((review) => (
-            <MyReviewCard key={review.id} review={review} />
-          ))}
-        </CarouselRow>
+        {isMobile ? (
+          <MobileHorizontalList>
+            {reviews.map((review) => (
+              <MyReviewCard key={review.id} review={review} />
+            ))}
+          </MobileHorizontalList>
+        ) : (
+          <CarouselRow
+            canPrev={reviewCarousel.canPrev}
+            canNext={reviewCarousel.canNext}
+            onPrev={reviewCarousel.prev}
+            onNext={reviewCarousel.next}
+          >
+            {reviewCarousel.visibleItems.map((review) => (
+              <MyReviewCard key={review.id} review={review} />
+            ))}
+          </CarouselRow>
+        )}
       </Section>
     </PageWrapper>
   );

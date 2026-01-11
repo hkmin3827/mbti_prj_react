@@ -259,7 +259,7 @@ export default function EditProfile() {
                       <p style={{ fontWeight: "600", fontSize: "20px" }}>
                         Lover
                       </p>
-                      <p>{user?.partnerMbti}</p>
+                      <p>{user?.partnerMbti ?? "X"}</p>
                     </Mbti>
                   </MbtiWrapper>
                 </MbtiInfo>

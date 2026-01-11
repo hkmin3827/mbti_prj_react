@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   padding: 50px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 export const Section = styled.section`
@@ -10,13 +13,17 @@ export const Section = styled.section`
   padding: 30px;
   padding-top: 15px;
   border-radius: 30px;
+  @media (max-width: 768px) {
+    margin-bottom: 30px;
+    padding: 15px 20px;
+  }
 `;
 
 export const ItemRow = styled.div`
   display: flex;
   gap: 12px;
-  overflow: visible; /* ⭐ 핵심 */
-  padding-top: 8px; /* ⭐ 위 여백 확보 */
+  overflow: visible;
+  padding-top: 8px;
 `;
 
 export const SectionHeader = styled.div`
@@ -47,4 +54,14 @@ export const AllButton = styled.button`
 export const Title = styled.h2`
   font-size: 20px;
   margin-left: 15px;
+
+  span {
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+  @media (max-width: 768px) {
+    font-size: 16px;
+    margin-left: 0;
+  }
 `;

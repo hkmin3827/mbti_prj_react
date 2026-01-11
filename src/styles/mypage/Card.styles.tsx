@@ -23,8 +23,8 @@ export const MyViewCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 70%;
-    min-width: 70%;
+    flex: 0;
+    min-width: 150px;
   }
 `;
 
@@ -36,6 +36,7 @@ export const ReviewCard = styled.div`
   background: rgba(255, 255, 255, 0.95);
   margin: 0 auto;
   cursor: pointer;
+  min-height: 160px;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -50,8 +51,8 @@ export const ReviewCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 70%;
-    min-width: 70%;
+    flex: 0;
+    min-width: 200px;
   }
 `;
 export const LikeBadgeWrapper = styled.div`

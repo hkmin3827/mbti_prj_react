@@ -33,12 +33,13 @@ export const ArrowButton = styled.button`
 `;
 export const Viewport = styled.div`
   flex: 1;
-  overflow: hidden; /* ⭐ 여기서만 숨김 */
-  padding-top: 8px; /* ⭐ hover 여유 */
+  overflow: hidden;
+  padding-top: 8px;
   overflow-x: auto;
 `;
 
 export const CardList = styled.div`
   display: flex;
   gap: 12px;
+  min-height: 150px;
 `;

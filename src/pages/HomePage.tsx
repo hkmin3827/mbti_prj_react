@@ -75,7 +75,19 @@ export default function HomePage() {
                     </RankBadge>
                   )}
 
-                  {place.name}
+                  <p>
+                    {place.name}
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        color: "#666",
+                        marginLeft: "6px",
+                      }}
+                    >
+                      ⭐ {place.rating ?? "-"}
+                    </span>
+                  </p>
+
                   <span style={{ fontSize: "12px", color: "#666" }}>
                     {place.address}
                   </span>
@@ -89,7 +101,7 @@ export default function HomePage() {
               arrow_back_ios
             </LeftIcon>
             <div>
-              데이트, 어디에서 할까? 고민하시지마세요.
+              '데이트, 어디 가지?' 고민하시지마세요.
               <br />
               연인들의 MBTI에 맞춰 추천해드립니다.
               <br />
@@ -129,7 +141,18 @@ export default function HomePage() {
                           {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
                         </RankBadge>
                       )}
-                      {place.name}
+                      <p>
+                        {place.name}
+                        <span
+                          style={{
+                            fontSize: "11px",
+                            color: "#666",
+                            marginLeft: "6px",
+                          }}
+                        >
+                          ⭐ {place.rating ?? "-"}
+                        </span>
+                      </p>
                       <span style={{ fontSize: "12px", color: "#666" }}>
                         {place.address}
                       </span>
@@ -138,10 +161,16 @@ export default function HomePage() {
                 </CardList>
               </>
             ) : (
-              <CardTitle>
-                연인의 MBTI를 설정하면
+              <CardTitle
+                style={{
+                  textAlign: "center",
+                  color: "#333",
+                }}
+              >
+                프로필에서 연인의 MBTI를 설정하면
                 <br />
                 그에 맞는 추천 결과를 확인할 수 있어요.
+                <br />
               </CardTitle>
             )}
           </Card>

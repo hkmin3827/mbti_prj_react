@@ -25,7 +25,7 @@ export function PlaceHistoryCard({ place }: { place: PlaceResponse }) {
         <Name>{place.name}</Name>
         <Category>{place.category}</Category>
         <Address>{place.address}</Address>
-        <Rating>⭐ · {place.rating}</Rating>
+        <Rating>⭐ {place.rating ?? "-"}</Rating>
       </Inner>
     </MyViewCard>
   );

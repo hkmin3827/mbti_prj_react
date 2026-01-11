@@ -40,6 +40,7 @@ export const TextArea = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
 `;
 export const Header = styled.div`
   font-weight: 400;

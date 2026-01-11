@@ -2,19 +2,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { ReviewResponse } from "../../api/review.api";
 import { ReviewCard } from "../../styles/mypage/Card.styles";
 import {
-  CardGrid,
+  Inner,
   TextArea,
   Header,
   PlaceName,
   Address,
+  Sub,
   VerifiedBadge,
   Content,
-  ImageArea,
-  MetaText,
-  Thumbnail,
-  Sub,
   Bottom,
-} from "../../styles/review/ReviewCard.styles";
+  MetaText,
+  ImageArea,
+  Thumbnail,
+} from "../../styles/mypage/MyReviewCard.styles";
 import { RatingStars } from "../review/RatingStars";
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("ko-KR", {
@@ -25,6 +25,7 @@ const formatDate = (iso: string) =>
 export function MyReviewCard({ review }: { review: ReviewResponse }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <ReviewCard
@@ -34,7 +35,7 @@ export function MyReviewCard({ review }: { review: ReviewResponse }) {
         })
       }
     >
-      <CardGrid>
+      <Inner>
         <TextArea>
           <Header>
             <PlaceName>{review.place.name}</PlaceName>
@@ -62,10 +63,12 @@ export function MyReviewCard({ review }: { review: ReviewResponse }) {
             <MetaText>{formatDate(review.createdAt)}</MetaText>
           </Bottom>
         </TextArea>
-        <ImageArea $hasImage={!!review.reviewImageUrl}>
-          {review.reviewImageUrl && <Thumbnail src={review.reviewImageUrl} />}
-        </ImageArea>
-      </CardGrid>
+        {!isMobile && (
+          <ImageArea $hasImage={!!review.reviewImageUrl}>
+            {review.reviewImageUrl && <Thumbnail src={review.reviewImageUrl} />}
+          </ImageArea>
+        )}
+      </Inner>
     </ReviewCard>
   );
 }
