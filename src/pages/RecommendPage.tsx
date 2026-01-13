@@ -19,28 +19,32 @@ import { viewPlaceApi } from "../api/view.api";
 import { getPlaceDetailApi } from "../api/place.api";
 import type { PlaceDetail } from "../types/placeDetail";
 
+// 검색 자동완성 전용
+export type KakaoPlaceSuggestion = {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  address: string;
+};
+
 export default function RecommendPage() {
   const PAGE_SIZE = 5;
 
-  /* =======================
-     URL PARAMS (단일 진실)
-     ======================= */
+  // URL params
   const [searchParams, setSearchParams] = useSearchParams();
   const context = (searchParams.get("context") as MbtiContext) ?? "SELF";
   const category = (searchParams.get("category") as Category) ?? "CAFE";
 
-  /* =======================
-     MAP / MARKER
-     ======================= */
+  // Map refs
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const mapInstance = useRef<any>(null);
-  const markerMapRef = useRef<Map<number, kakao.maps.Marker>>(new Map());
+  const mapInstance = useRef<kakao.maps.Map | null>(null);
+  const markerMapRef = useRef<Map<string, kakao.maps.Marker>>(new Map());
   const activeMarkerRef = useRef<kakao.maps.Marker | null>(null);
   const hasFetchedLocation = useRef(false);
-  /* =======================
-     UI STATE
-     ======================= */
-  const debounceTimerRef = useRef<number | null>(null);
+
+  // UI state
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [keyword, setKeyword] = useState("");
 
   // 지도 / 리스트 / 마커용
@@ -49,18 +53,30 @@ export default function RecommendPage() {
   // 오른쪽 상세 패널 전용
   const [placeDetail, setPlaceDetail] = useState<PlaceDetail | null>(null);
 
-  const [suggestions, setSuggestions] = useState<KakaoPlace[]>([]);
+  const [suggestions, setSuggestions] = useState<KakaoPlaceSuggestion[]>([]);
   const skipNextEffectRef = useRef(false);
 
   const [allPlaces, setAllPlaces] = useState<KakaoPlace[]>([]); // 전체 20
-  const [places, setPlaces] = useState<KakaoPlace[]>([]); // 현재 페이지 5개
+  // const [places, setPlaces] = useState<KakaoPlace[]>([]); // 현재 페이지 5개
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(allPlaces.length / PAGE_SIZE);
+
+  const start = page * PAGE_SIZE;
+  const places = allPlaces.slice(start, start + PAGE_SIZE);
 
   const FALLBACK_LOCATION = {
     lat: 37.498095,
     lng: 127.02761,
   };
+
+  const getActiveMarkerImage = () =>
+    new window.kakao.maps.MarkerImage(
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+      new window.kakao.maps.Size(24, 35),
+      {
+        offset: new window.kakao.maps.Point(12, 35),
+      }
+    );
 
   const selectKakaoPlace = (place: KakaoPlace) => {
     setSelectedKakaoPlace(place);
@@ -83,7 +99,87 @@ export default function RecommendPage() {
     }
   };
 
-  const searchByPlace = (place: KakaoPlace) => {
+  const redrawMarkers = (places: KakaoPlace[]) => {
+    if (!mapInstance.current) return;
+    if (!places || places.length === 0) return;
+
+    markerMapRef.current.forEach((marker) => marker.setMap(null));
+    markerMapRef.current.clear();
+
+    places.forEach((p) => {
+      const marker = new window.kakao.maps.Marker({
+        map: mapInstance.current!,
+        position: new window.kakao.maps.LatLng(p.lat, p.lng),
+        zIndex: 1,
+      });
+
+      window.kakao.maps.event.addListener(marker, "click", () => {
+        selectKakaoPlace(p);
+      });
+
+      markerMapRef.current.set(p.id, marker);
+    });
+  };
+
+  const fetchRecommend = async (lat: number, lng: number) => {
+    try {
+      const res = await recommendPlacesApi({ lat, lng, category, context });
+
+      const mapped: KakaoPlace[] = res.documents.map((doc, idx) => ({
+        id: String(doc.id ?? idx),
+        name: doc.place_name,
+        lat: Number(doc.y),
+        lng: Number(doc.x),
+        address: doc.address_name,
+        roadAddress: doc.road_address_name,
+        categoryName: doc.category_name,
+        categoryGroupCode: doc.category_group_code,
+        phone: doc.phone,
+      }));
+
+      // 전체 추천 저장
+      setAllPlaces(mapped);
+
+      // 페이지 초기화
+      setPage(0);
+
+      redrawMarkers(mapped);
+
+      // 첫 페이지 리스트
+      // setPlaces(mapped.slice(0, PAGE_SIZE));
+
+      // 추천 새로 생성되면 상세 선택 초기화가 안전
+      // setSelectedPlace(null);
+    } catch (e) {
+      console.error("추천 API 실패", e);
+    }
+  };
+  const fetchSuggestions = (keyword: string) => {
+    if (!window.kakao?.maps?.services) return;
+
+    const ps = new window.kakao.maps.services.Places();
+
+    ps.keywordSearch(keyword, (data, status) => {
+      console.log("[fetchSuggestions CALLBACK]", keyword, Date.now());
+
+      if (status !== "OK") {
+        setSuggestions([]);
+        return;
+      }
+
+      setSuggestions(
+        data.map((p) => ({
+          id: p.id,
+          name: p.place_name,
+          lat: Number(p.y),
+          lng: Number(p.x),
+          address: p.road_address_name || p.address_name,
+        }))
+      );
+    });
+  };
+
+  const searchByPlace = (place: KakaoPlaceSuggestion) => {
     skipNextEffectRef.current = true;
     clearTimeout(debounceTimerRef.current!);
 
@@ -97,67 +193,10 @@ export default function RecommendPage() {
     fetchRecommend(place.lat, place.lng);
   };
 
-  const redrawMarkers = (places?: KakaoPlace[]) => {
-    if (!window.kakao || !mapInstance.current) return;
-    if (!places || places.length === 0) return;
-
-    markerMapRef.current.forEach((marker) => marker.setMap(null));
-    markerMapRef.current.clear();
-
-    const kakao = window.kakao;
-    places.forEach((p) => {
-      const marker = new kakao.maps.Marker({
-        map: mapInstance.current,
-        position: new kakao.maps.LatLng(p.lat, p.lng),
-        zIndex: 1,
-      });
-
-      kakao.maps.event.addListener(marker, "click", () => {
-        selectKakaoPlace(p);
-      });
-
-      markerMapRef.current.set(p.id, marker);
-    });
-  };
-
-  const fetchRecommend = async (lat: number, lng: number) => {
-    try {
-      const res = await recommendPlacesApi({ lat, lng, category, context });
-
-      const all: KakaoPlace[] = res.documents.map((doc, idx) => ({
-        id: Number.isFinite(Number(doc.id)) ? Number(doc.id) : idx,
-        name: doc.place_name,
-        lat: Number(doc.y),
-        lng: Number(doc.x),
-        address: doc.address_name,
-        roadAddress: doc.road_address_name,
-        categoryName: doc.category_name,
-        categoryGroupCode: doc.category_group_code,
-        phone: doc.phone,
-      }));
-
-      // 전체 추천 저장
-      setAllPlaces(all);
-
-      // 페이지 초기화
-      setPage(0);
-
-      redrawMarkers(all);
-
-      // 첫 페이지 리스트
-      setPlaces(all.slice(0, PAGE_SIZE));
-
-      // 추천 새로 생성되면 상세 선택 초기화가 안전
-      // setSelectedPlace(null);
-    } catch (e) {
-      console.error("추천 API 실패", e);
-    }
-  };
-  useEffect(() => {
-    const start = page * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
-    setPlaces(allPlaces.slice(start, end));
-  }, [page, allPlaces]);
+  // useEffect(() => {
+  //   const start = page * PAGE_SIZE;
+  //   setPlaces(allPlaces.slice(start, start + PAGE_SIZE));
+  // }, [page, allPlaces]);
 
   useEffect(() => {
     (async () => {
@@ -180,14 +219,14 @@ export default function RecommendPage() {
           if (hasFetchedLocation.current) return;
           hasFetchedLocation.current = true;
 
-          const lat = pos.coords.latitude;
-          const lng = pos.coords.longitude;
-
           mapInstance.current?.setCenter(
-            new window.kakao.maps.LatLng(lat, lng)
+            new window.kakao.maps.LatLng(
+              pos.coords.latitude,
+              pos.coords.longitude
+            )
           );
 
-          fetchRecommend(lat, lng);
+          fetchRecommend(pos.coords.latitude, pos.coords.longitude);
         },
         () => {
           fetchRecommend(FALLBACK_LOCATION.lat, FALLBACK_LOCATION.lng);
@@ -209,41 +248,6 @@ export default function RecommendPage() {
     fetchRecommend(center.getLat(), center.getLng());
   }, [category, context]);
 
-  const fetchSuggestions = (keyword: string) => {
-    console.log("[fetchSuggestions CALL]", keyword, Date.now());
-
-    if (!window.kakao?.maps?.services) return;
-
-    const ps = new window.kakao.maps.services.Places();
-    ps.keywordSearch(keyword, (data, status) => {
-      console.log("[fetchSuggestions CALLBACK]", keyword, Date.now());
-
-      if (status !== window.kakao.maps.services.Status.OK) {
-        setSuggestions([]);
-        return;
-      }
-
-      setSuggestions(
-        data.map((p, idx) => ({
-          id: Number(p.id) || idx,
-          name: p.place_name,
-          lat: Number(p.y),
-          lng: Number(p.x),
-          address: p.road_address_name || p.address_name,
-        }))
-      );
-    });
-  };
-
-  const getActiveMarkerImage = () =>
-    new window.kakao.maps.MarkerImage(
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-      new window.kakao.maps.Size(24, 35),
-      {
-        offset: new window.kakao.maps.Point(12, 35),
-      }
-    );
-
   useEffect(() => {
     if (skipNextEffectRef.current) {
       skipNextEffectRef.current = false;
@@ -253,7 +257,7 @@ export default function RecommendPage() {
     if (keyword.trim().length < 2) return;
 
     clearTimeout(debounceTimerRef.current!);
-    debounceTimerRef.current = window.setTimeout(() => {
+    debounceTimerRef.current = setTimeout(() => {
       fetchSuggestions(keyword);
     }, 200);
   }, [keyword]);

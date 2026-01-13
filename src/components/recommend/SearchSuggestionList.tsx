@@ -1,13 +1,13 @@
-import type { KakaoPlace } from "../../types/kakaoPlace";
 import {
   SuggestionWrapper,
   SuggestionItem,
   SuggestionEmpty,
 } from "../../styles/recommend/SearchSuggestion.styles";
+import type { KakaoPlaceSuggestion } from "../../pages/RecommendPage";
 
 interface Props {
-  items: KakaoPlace[];
-  onSelect: (p: KakaoPlace) => void;
+  items: KakaoPlaceSuggestion[];
+  onSelect: (p: KakaoPlaceSuggestion) => void;
 }
 
 export function SearchSuggestionList({ items, onSelect }: Props) {

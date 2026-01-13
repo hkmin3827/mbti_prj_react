@@ -65,6 +65,7 @@ export function ReviewWriteModal({ onClose, onSuccess }: any) {
         contentType: reviewImage.type,
       });
 
+      console.log("upload contentType", reviewImage.type);
       await fetch(uploadUrl, {
         method: "PUT",
         body: reviewImage,
