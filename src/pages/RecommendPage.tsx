@@ -359,7 +359,10 @@ export default function RecommendPage() {
               <PlaceDetailCard
                 place={placeDetail}
                 context={context}
-                onClose={() => setPlaceDetail(null)}
+                onClose={() => {
+                  setPlaceDetail(null);
+                  setSelectedKakaoPlace(null);
+                }}
               />
             )}
           </RightPanel>
