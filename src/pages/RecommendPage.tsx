@@ -159,24 +159,30 @@ export default function RecommendPage() {
 
     const ps = new window.kakao.maps.services.Places();
 
-    ps.keywordSearch(keyword, (data, status) => {
-      console.log("[fetchSuggestions CALLBACK]", keyword, Date.now());
+    ps.keywordSearch(
+      keyword,
+      (
+        data: kakao.maps.services.PlacesSearchResult,
+        status: kakao.maps.services.Status
+      ) => {
+        console.log("[fetchSuggestions CALLBACK]", keyword, Date.now());
 
-      if (status !== "OK") {
-        setSuggestions([]);
-        return;
+        if (status !== "OK") {
+          setSuggestions([]);
+          return;
+        }
+
+        setSuggestions(
+          data.map((p: kakao.maps.services.PlacesSearchResultItem) => ({
+            id: p.id,
+            name: p.place_name,
+            lat: Number(p.y),
+            lng: Number(p.x),
+            address: p.road_address_name || p.address_name,
+          }))
+        );
       }
-
-      setSuggestions(
-        data.map((p) => ({
-          id: p.id,
-          name: p.place_name,
-          lat: Number(p.y),
-          lng: Number(p.x),
-          address: p.road_address_name || p.address_name,
-        }))
-      );
-    });
+    );
   };
 
   const searchByPlace = (place: KakaoPlaceSuggestion) => {
