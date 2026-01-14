@@ -17,6 +17,8 @@ export const PageGrid = styled.div<{ $hasDetail: boolean }>`
 
 export const LeftPanel = styled.div`
   display: flex;
+  min-width: 0;
+  width: 100%;
   flex-direction: column;
   gap: 15px;
 `;

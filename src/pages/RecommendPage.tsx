@@ -236,10 +236,15 @@ export default function RecommendPage() {
     fetchRecommend(place.lat, place.lng);
   };
 
-  // useEffect(() => {
-  //   const start = page * PAGE_SIZE;
-  //   setPlaces(allPlaces.slice(start, start + PAGE_SIZE));
-  // }, [page, allPlaces]);
+  useEffect(() => {
+    if (!mapInstance.current) return;
+
+    requestAnimationFrame(() => {
+      mapInstance.current!.relayout();
+      const center = mapInstance.current!.getCenter();
+      mapInstance.current!.setCenter(center);
+    });
+  }, [placeDetail]);
 
   useEffect(() => {
     (async () => {
@@ -256,11 +261,6 @@ export default function RecommendPage() {
       });
 
       mapInstance.current = map;
-
-      requestAnimationFrame(() => {
-        map.relayout();
-        map.setCenter(map.getCenter());
-      });
 
       navigator.geolocation?.getCurrentPosition(
         (pos) => {
