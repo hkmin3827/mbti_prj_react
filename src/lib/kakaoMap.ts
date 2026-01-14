@@ -20,7 +20,7 @@ export function loadKakaoMap(): Promise<typeof window.kakao> {
   kakaoMapPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
 
-    const key = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY;
+    const key = import.meta.env.VITE_KAKAO_MAP_KEY;
     if (!key) {
       reject(new Error("Kakao JS Key is undefined"));
       return;
