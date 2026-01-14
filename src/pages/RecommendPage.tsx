@@ -361,7 +361,10 @@ export default function RecommendPage() {
                 context={context}
                 onClose={() => {
                   setPlaceDetail(null);
-                  setSelectedKakaoPlace(null);
+                  if (activeMarkerRef.current) {
+                    activeMarkerRef.current.setImage(null);
+                    activeMarkerRef.current.setZIndex(1);
+                  }
                 }}
               />
             )}
