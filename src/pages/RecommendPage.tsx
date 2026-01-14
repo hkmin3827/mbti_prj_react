@@ -98,6 +98,44 @@ export default function RecommendPage() {
     }
   };
 
+  const handlePlaceCardClick = async (place: KakaoPlace) => {
+    try {
+      // 1️⃣ view API (Place 생성 + 로그)
+      const { placeId } = await viewPlaceApi(
+        {
+          kakaoPlaceId: String(place.id),
+          name: place.name,
+          address: place.address,
+          roadAddress: place.roadAddress,
+          latitude: place.lat,
+          longitude: place.lng,
+          categoryName: place.categoryName,
+          categoryGroupCode: place.categoryGroupCode,
+          phone: place.phone,
+        },
+        context
+      );
+
+      // 2️⃣ 내부 Place 상세 조회
+      const detail: PlaceDetail = await getPlaceDetailApi(placeId, context);
+
+      // 3️⃣ 오른쪽 상세 패널만 갱신
+      setPlaceDetail(detail);
+
+      // 4️⃣ 지도/마커 선택 동기화
+      selectKakaoPlace(place);
+    } catch (e: any) {
+      const status = e?.response?.status;
+
+      if (status === 403) {
+        alert("해당 장소는 비활성화되어 접근할 수 없습니다.");
+        return;
+      }
+
+      alert("장소 정보를 불러올 수 없습니다.");
+    }
+  };
+
   const redrawMarkers = (places: KakaoPlace[]) => {
     if (!mapInstance.current) return;
     if (!places || places.length === 0) return;
@@ -113,7 +151,7 @@ export default function RecommendPage() {
       });
 
       window.kakao.maps.event.addListener(marker, "click", () => {
-        selectKakaoPlace(p);
+        handlePlaceCardClick(p);
       });
 
       markerMapRef.current.set(p.id, marker);
@@ -267,43 +305,6 @@ export default function RecommendPage() {
     }, 200);
   }, [keyword]);
 
-  const handlePlaceCardClick = async (place: KakaoPlace) => {
-    try {
-      // 1️⃣ view API (Place 생성 + 로그)
-      const { placeId } = await viewPlaceApi(
-        {
-          kakaoPlaceId: String(place.id),
-          name: place.name,
-          address: place.address,
-          roadAddress: place.roadAddress,
-          latitude: place.lat,
-          longitude: place.lng,
-          categoryName: place.categoryName,
-          categoryGroupCode: place.categoryGroupCode,
-          phone: place.phone,
-        },
-        context
-      );
-
-      // 2️⃣ 내부 Place 상세 조회
-      const detail: PlaceDetail = await getPlaceDetailApi(placeId, context);
-
-      // 3️⃣ 오른쪽 상세 패널만 갱신
-      setPlaceDetail(detail);
-
-      // 4️⃣ 지도/마커 선택 동기화
-      selectKakaoPlace(place);
-    } catch (e: any) {
-      const status = e?.response?.status;
-
-      if (status === 403) {
-        alert("해당 장소는 비활성화되어 접근할 수 없습니다.");
-        return;
-      }
-
-      alert("장소 정보를 불러올 수 없습니다.");
-    }
-  };
   return (
     <div>
       <ContextSelector
