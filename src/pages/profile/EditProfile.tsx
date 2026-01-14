@@ -52,9 +52,10 @@ export default function EditProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setName(user!.name ?? "");
-    setTelnum(user!.telnum ?? "");
-    setPreviewUrl(user!.profileImage ?? null);
+    if (!user) return;
+    setName(user.name ?? "");
+    setTelnum(user.telnum ?? "");
+    setPreviewUrl(user.profileImage ?? null);
   }, [user]);
 
   // 파일 선택 시
@@ -142,7 +143,7 @@ export default function EditProfile() {
     }
   };
 
-  const handleLogout = (silent?: boolean) => {
+  const handleLogout = (silent: boolean = false): void => {
     const { clearAuth: clearToken } = useAuthStore.getState();
 
     // authStore 전체 초기화 (token + user + role)
@@ -186,10 +187,13 @@ export default function EditProfile() {
       });
     }
   };
+  const onClickLogout: React.MouseEventHandler<HTMLButtonElement> = () => {
+    handleLogout(false);
+  };
   return (
     <PageContainer>
       <Panel key={user?.id}>
-        <LogoutButton onClick={handleLogout}>
+        <LogoutButton onClick={onClickLogout}>
           <span className="material-symbols-outlined">logout</span>
           <p>로그아웃</p>
         </LogoutButton>

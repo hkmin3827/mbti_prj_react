@@ -6,7 +6,7 @@ export function loadKakaoMap(): Promise<typeof window.kakao> {
     }
 
     // autoload=false 이므로 반드시 필요
-    window.kakao.maps.load(() => {
+    (window.kakao.maps as any).load(() => {
       resolve(window.kakao);
     });
   });
