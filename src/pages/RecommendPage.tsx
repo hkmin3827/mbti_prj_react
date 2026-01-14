@@ -57,7 +57,6 @@ export default function RecommendPage() {
   const skipNextEffectRef = useRef(false);
 
   const [allPlaces, setAllPlaces] = useState<KakaoPlace[]>([]); // 전체 20
-  // const [places, setPlaces] = useState<KakaoPlace[]>([]); // 현재 페이지 5개
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(allPlaces.length / PAGE_SIZE);
 
@@ -149,7 +148,7 @@ export default function RecommendPage() {
       // setPlaces(mapped.slice(0, PAGE_SIZE));
 
       // 추천 새로 생성되면 상세 선택 초기화가 안전
-      // setSelectedPlace(null);
+      setPlaceDetail(null);
     } catch (e) {
       console.error("추천 API 실패", e);
     }
