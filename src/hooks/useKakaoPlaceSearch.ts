@@ -5,12 +5,18 @@ export const searchPlaces = (
   return new Promise((resolve, reject) => {
     const ps = new window.kakao.maps.services.Places();
 
-    ps.keywordSearch(keyword, (data, status) => {
-      if (status === "OK") {
-        resolve(data);
-      } else {
-        reject(status);
+    ps.keywordSearch(
+      keyword,
+      (
+        data: kakao.maps.services.PlacesSearchResult,
+        status: kakao.maps.services.Status
+      ) => {
+        if (status === "OK") {
+          resolve(data);
+        } else {
+          reject(status);
+        }
       }
-    });
+    );
   });
 };
