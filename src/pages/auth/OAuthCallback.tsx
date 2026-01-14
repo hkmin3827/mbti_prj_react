@@ -28,7 +28,7 @@ const OAuthCallback = () => {
 
         if (!me.isActive) {
           clearAuth();
-          alert("비활성화된 계정입니다. 관리자에게 문의하세요.");
+          alert("비활성화된 계정입니다. 관리자에게 문의해주세요.");
           navigate("/login", { replace: true });
           return;
         }
