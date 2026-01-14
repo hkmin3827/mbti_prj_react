@@ -257,6 +257,11 @@ export default function RecommendPage() {
 
       mapInstance.current = map;
 
+      requestAnimationFrame(() => {
+        map.relayout();
+        map.setCenter(map.getCenter());
+      });
+
       navigator.geolocation?.getCurrentPosition(
         (pos) => {
           if (hasFetchedLocation.current) return;
