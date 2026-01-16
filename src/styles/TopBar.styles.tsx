@@ -292,23 +292,23 @@ export const HamburgerButton = styled.button`
 export const MobileOverlay = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
+  z-index: 300;
   background: rgba(0, 0, 0, 0.55);
   opacity: ${({ $open }) => ($open ? 1 : 0)};
   pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
   transition: opacity 0.25s ease;
-  z-index: 300;
 `;
 
 /* 우측 슬라이드 메뉴 */
 export const MobileMenu = styled.div<{ $open: boolean }>`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 220px;
   height: 100%;
   background: #000;
-  padding: 20px;
-  z-index: 3000;
+  padding: 60px 20px;
+  z-index: 1000;
 
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.3s ease;
@@ -319,7 +319,6 @@ export const MobileMenuItem = styled.div<{ $active?: boolean }>`
   font-size: 18px;
   padding: 20px 0;
   cursor: pointer;
-  margin-top: 50px;
 
   color: ${({ $active }) => ($active ? "#ffffff" : "#e8e8e8")};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
