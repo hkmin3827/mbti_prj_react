@@ -56,6 +56,7 @@ const LoginPage = () => {
       const res = await loginApi(form);
 
       setToken(res.token);
+      console.log("AccessToken", accessToken);
 
       const me = await fetchMe();
 
@@ -75,7 +76,6 @@ const LoginPage = () => {
       } else {
         navigate("/");
       }
-      console.log("AccessToken", accessToken);
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
 
