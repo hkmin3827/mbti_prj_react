@@ -45,6 +45,7 @@ export default function TopBar() {
 
     navigate(`/recommend?category=${category}&context=${context}`);
     setRecommendOpen(false);
+    setMenuOpen(false);
   };
   return (
     <Wrapper>
@@ -116,7 +117,10 @@ export default function TopBar() {
             >
               ✕
             </MobileCloseButton>
-            <MobileMenuItem onClick={() => setRecommendOpen((prev) => !prev)}>
+            <MobileMenuItem
+              $active={recommendOpen}
+              onClick={() => setRecommendOpen((prev) => !prev)}
+            >
               Get Recommend
             </MobileMenuItem>
 

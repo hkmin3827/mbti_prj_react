@@ -277,7 +277,7 @@ export const ProfileImage = styled.img`
 export const HamburgerButton = styled.button`
   display: none;
   margin-left: 8px;
-  font-size: 22px;
+  font-size: 26px;
   background: none;
   border: none;
   color: #fff;
@@ -316,16 +316,18 @@ export const MobileMenu = styled.div<{ $open: boolean }>`
 /* 메뉴 아이템 */
 export const MobileMenuItem = styled.div<{ $active?: boolean }>`
   font-size: 18px;
-  color: #e8e8e8;
   padding: 20px 0;
   cursor: pointer;
 
-  font-weight: ${({ $active }) => ($active ? 700 : 400)};
   color: ${({ $active }) => ($active ? "#ffffff" : "#e8e8e8")};
+  font-weight: ${({ $active }) => ($active ? 700 : 400)};
+
   text-shadow: ${({ $active }) =>
     $active
-      ? "0 0 8px rgba(255, 255, 255, 0.6), 0 12px rgba(255, 200, 215, 0.45)"
+      ? "0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,200,215,0.45)"
       : "none"};
+
+  transition: color 0.2s ease, font-weight 0.2s ease, text-shadow 0.25s ease;
 `;
 
 /* 서브메뉴 */
@@ -356,6 +358,7 @@ export const MobileCloseButton = styled.button`
   color: #fff;
   font-size: 18px;
   cursor: pointer;
+  margin-bottom: 50px;
 
   opacity: 0.8;
 
