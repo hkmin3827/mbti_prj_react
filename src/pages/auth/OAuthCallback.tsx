@@ -11,6 +11,8 @@ const OAuthCallback = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
+  const accessToken = useAuthStore((state) => state.accessToken);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -44,6 +46,7 @@ const OAuthCallback = () => {
         } else {
           navigate("/", { replace: true });
         }
+        console.log("AccessToken", accessToken);
       } catch {
         alert("로그인 중 오류가 발생하였습니다.");
         navigate("/login", { replace: true });
