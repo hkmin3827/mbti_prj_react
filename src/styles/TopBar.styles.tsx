@@ -276,8 +276,8 @@ export const ProfileImage = styled.img`
 /* 햄버거 버튼 */
 export const HamburgerButton = styled.button`
   display: none;
-  margin-left: 8px;
-  font-size: 26px;
+  margin-left: 7px;
+  font-size: 28px;
   background: none;
   border: none;
   color: #fff;
@@ -308,7 +308,7 @@ export const MobileMenu = styled.div<{ $open: boolean }>`
   height: 100%;
   background: #000;
   padding: 20px;
-  z-index: 999;
+  z-index: 3000;
 
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.3s ease;
@@ -319,6 +319,7 @@ export const MobileMenuItem = styled.div<{ $active?: boolean }>`
   font-size: 18px;
   padding: 20px 0;
   cursor: pointer;
+  margin-top: 50px;
 
   color: ${({ $active }) => ($active ? "#ffffff" : "#e8e8e8")};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
@@ -334,7 +335,7 @@ export const MobileMenuItem = styled.div<{ $active?: boolean }>`
 /* 서브메뉴 */
 export const MobileSubMenu = styled.div<{ $open: boolean }>`
   margin-left: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 
   max-height: ${({ $open }) => ($open ? "200px" : "0")};
   opacity: ${({ $open }) => ($open ? 1 : 0)};
@@ -359,7 +360,6 @@ export const MobileCloseButton = styled.button`
   color: #fff;
   font-size: 18px;
   cursor: pointer;
-  margin-bottom: 50px;
 
   opacity: 0.8;
 
