@@ -21,6 +21,7 @@ export const Card = styled.article`
   @media (max-width: 768px) {
     padding: 14px;
     border-radius: 12px;
+    max-height: 250px;
   }
 `;
 export const CardGrid = styled.div`
