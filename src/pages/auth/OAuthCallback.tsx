@@ -46,7 +46,6 @@ const OAuthCallback = () => {
         } else {
           navigate("/", { replace: true });
         }
-        console.log("AccessToken", accessToken);
       } catch {
         alert("로그인 중 오류가 발생하였습니다.");
         navigate("/login", { replace: true });
@@ -54,6 +53,7 @@ const OAuthCallback = () => {
     };
 
     processOAuthLogin();
+    console.log("AccessToken", accessToken);
   }, [navigate, setToken, fetchMe]);
 
   return null;
