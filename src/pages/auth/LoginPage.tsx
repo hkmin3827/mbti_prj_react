@@ -38,8 +38,6 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { fetchMe } = useContext(UserContext);
 
-  const accessToken = useAuthStore.getState().accessToken;
-
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +54,6 @@ const LoginPage = () => {
       const res = await loginApi(form);
 
       setToken(res.token);
-      console.log("AccessToken", accessToken);
 
       const me = await fetchMe();
 
