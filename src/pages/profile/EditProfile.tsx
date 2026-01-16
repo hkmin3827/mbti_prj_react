@@ -29,7 +29,7 @@ import { getPresignedUrlApi } from "../../api/s3.api.ts";
 import { handleApiError } from "../../utils/handleApiError.ts";
 import { useNavigate } from "react-router-dom";
 import { EditButton } from "../../styles/review/ReviewDetailDrawer.styles.tsx";
-import { withdrawApi } from "../../api/auth.api.ts";
+import { logoutApi, withdrawApi } from "../../api/auth.api.ts";
 import { useAuthStore } from "../../store/authStore.tsx";
 
 interface ValidationErrors {
@@ -143,21 +143,25 @@ export default function EditProfile() {
     }
   };
 
-  const handleLogout = (silent: boolean = false): void => {
-    const { clearAuth: clearToken } = useAuthStore.getState();
+  const handleLogout = async (silent: boolean = false): Promise<void> => {
+    const { clearAuth } = useAuthStore.getState();
 
-    // authStore 전체 초기화 (token + user + role)
-    clearToken();
+    try {
+      await logoutApi();
+    } catch (e) {
+      console.warn("서버 로그아웃 실패", e);
+    } finally {
+      clearAuth();
+      localStorage.removeItem("accessToken");
 
-    // 혹시 남아 있을 수 있는 직접 저장 토큰 제거
-    localStorage.removeItem("accessToken");
+      if (!silent) {
+        alert("로그아웃되었습니다.");
+      }
 
-    if (!silent) {
-      alert("로그아웃되었습니다.");
+      navigate("/login", { replace: true });
     }
-
-    navigate("/login", { replace: true });
   };
+
   const WITHDRAW_CONFIRM_TEXT = "탈퇴합니다";
 
   const handleWithdraw = async () => {

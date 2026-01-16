@@ -24,6 +24,9 @@ export const loginApi = async (data: LoginRequest): Promise<LoginResponse> => {
   return res.data;
 };
 
+export const logoutApi = async (): Promise<void> => {
+  await axiosApi.post("/auth/logout");
+};
 export const getMeApi = async (): Promise<User> => {
   const { data } = await axiosApi.get("/api/users/me");
   return data;

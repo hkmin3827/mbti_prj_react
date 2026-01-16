@@ -58,33 +58,37 @@ export function ReviewWriteModal({ onClose, onSuccess }: any) {
 
     let reviewImageUrl: string | undefined;
 
-    if (reviewImage) {
-      const { uploadUrl, fileUrl } = await getPresignedUrlApi({
-        folder: "review-images",
-        originalFileName: reviewImage.name,
-        contentType: reviewImage.type,
+    try {
+      if (reviewImage) {
+        const { uploadUrl, fileUrl } = await getPresignedUrlApi({
+          folder: "review-images",
+          originalFileName: reviewImage.name,
+          contentType: reviewImage.type,
+        });
+
+        console.log("upload contentType", reviewImage.type);
+        await fetch(uploadUrl, {
+          method: "PUT",
+          body: reviewImage,
+          headers: { "Content-Type": reviewImage.type },
+        });
+
+        reviewImageUrl = fileUrl;
+      }
+
+      await createReviewApi({
+        placeId: selectedPlace.id,
+        rating,
+        content,
+        reviewImageUrl,
+        receiptImage: receiptFile,
       });
 
-      console.log("upload contentType", reviewImage.type);
-      await fetch(uploadUrl, {
-        method: "PUT",
-        body: reviewImage,
-        headers: { "Content-Type": reviewImage.type },
-      });
-
-      reviewImageUrl = fileUrl;
+      onSuccess?.();
+      onClose();
+    } catch (e) {
+      alert("리뷰 작성에 실패하였습니다. 필수값은 반드시 입력해주세요.");
     }
-
-    await createReviewApi({
-      placeId: selectedPlace.id,
-      rating,
-      content,
-      reviewImageUrl,
-      receiptImage: receiptFile,
-    });
-
-    onSuccess?.();
-    onClose();
   };
 
   return (
