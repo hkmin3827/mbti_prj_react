@@ -88,7 +88,7 @@ export default function TopBar() {
           </ProfileWrapper>
         )}
 
-        <HamburgerButton Click={() => setMenuOpen(true)}>☰</HamburgerButton>
+        <HamburgerButton onClick={() => setMenuOpen(true)}>☰</HamburgerButton>
 
         {/* 모바일 오버레이 */}
         <MobileOverlay $open={menuOpen} onClick={() => setMenuOpen(false)}>
