@@ -14,6 +14,12 @@ import {
   Center,
   ProfileWrapper,
   ProfileImage,
+  HamburgerButton,
+  MobileOverlay,
+  MobileMenu,
+  MobileMenuItem,
+  MobileSubMenu,
+  MobileSubItem,
 } from "../../styles/TopBar.styles";
 import type { Category } from "../../types/category";
 import { useContext, useState } from "react";
@@ -28,6 +34,10 @@ export default function TopBar() {
 
   const isRecommendActive = location.pathname.startsWith("/recommend");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // mobile
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [recommendOpen, setRecommendOpen] = useState(false);
 
   const handleSelectCategory = (category: Category) => {
     const context = params.get("context") ?? "SELF";
@@ -77,6 +87,49 @@ export default function TopBar() {
             />
           </ProfileWrapper>
         )}
+
+        <HamburgerButton Click={() => setMenuOpen(true)}>☰</HamburgerButton>
+
+        {/* 모바일 오버레이 */}
+        <MobileOverlay $open={menuOpen} onClick={() => setMenuOpen(false)}>
+          <MobileMenu $open={menuOpen} onClick={(e) => e.stopPropagation()}>
+            <MobileMenuItem onClick={() => setRecommendOpen((prev) => !prev)}>
+              Get Recommend
+            </MobileMenuItem>
+
+            {recommendOpen && (
+              <MobileSubMenu>
+                <MobileSubItem onClick={() => handleSelectCategory("CAFE")}>
+                  카페
+                </MobileSubItem>
+                <MobileSubItem onClick={() => handleSelectCategory("FOOD")}>
+                  맛집
+                </MobileSubItem>
+                <MobileSubItem onClick={() => handleSelectCategory("COURSE")}>
+                  그 외
+                </MobileSubItem>
+              </MobileSubMenu>
+            )}
+
+            <MobileMenuItem
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/reviews");
+              }}
+            >
+              Review
+            </MobileMenuItem>
+
+            <MobileMenuItem
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/mypage");
+              }}
+            >
+              My Page
+            </MobileMenuItem>
+          </MobileMenu>
+        </MobileOverlay>
       </Inner>
     </Wrapper>
   );

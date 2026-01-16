@@ -78,6 +78,8 @@ export const Center = styled.div`
     transform: none;
     width: auto;
     margin-left: auto; /* 프로필과 거리 확보 */
+
+    display: none;
   }
 `;
 
@@ -269,5 +271,70 @@ export const ProfileImage = styled.img`
   @media (max-width: 768px) {
     width: 34px;
     height: 34px;
+  }
+`;
+/* 햄버거 버튼 */
+export const HamburgerButton = styled.button`
+  display: none;
+  margin-left: 8px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+/* 오버레이 */
+export const MobileOverlay = styled.div<{ $open: boolean }>`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: ${({ $open }) => ($open ? 1 : 0)};
+  pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
+  transition: opacity 0.25s ease;
+  z-index: 300;
+`;
+
+/* 우측 슬라이드 메뉴 */
+export const MobileMenu = styled.div<{ $open: boolean }>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  height: 100%;
+  background: #000;
+  padding: 80px 20px 20px;
+
+  transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
+  transition: transform 0.3s ease;
+`;
+
+/* 메뉴 아이템 */
+export const MobileMenuItem = styled.div`
+  font-size: 18px;
+  color: #fff;
+  padding: 14px 0;
+  cursor: pointer;
+`;
+
+/* 서브메뉴 */
+export const MobileSubMenu = styled.div`
+  margin-left: 12px;
+  margin-bottom: 8px;
+`;
+
+/* 서브 아이템 */
+export const MobileSubItem = styled.div`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 8px 0;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
   }
 `;

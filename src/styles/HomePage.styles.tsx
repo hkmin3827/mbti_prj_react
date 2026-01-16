@@ -216,11 +216,13 @@ export const BottomTitle = styled.h3`
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 12px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export const BottomList = styled.ul`
   display: flex;
-
   gap: 24px;
   list-style: none;
   padding: 0;
@@ -230,7 +232,6 @@ export const BottomList = styled.ul`
 
 export const BottomItem = styled.li`
   font-size: 14px;
-
   width: 100%;
   height: 100%;
   background: #ffffff;

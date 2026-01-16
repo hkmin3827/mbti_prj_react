@@ -40,7 +40,7 @@ export const ScrollArea = styled.div`
     background: #f9a8d4;
     border-radius: 3px;
   }
-  &::-webkit-scrollbar-track {
+  & ::-webkit-scrollbar-track {
     background: transparent;
   }
 `;
@@ -175,5 +175,9 @@ export const DropdownItem = styled.div`
   span {
     font-size: 12px;
     color: #666;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
 `;
