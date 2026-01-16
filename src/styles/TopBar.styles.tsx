@@ -307,24 +307,35 @@ export const MobileMenu = styled.div<{ $open: boolean }>`
   width: 220px;
   height: 100%;
   background: #000;
-  padding: 80px 20px 20px;
+  padding: 20px;
 
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.3s ease;
 `;
 
 /* 메뉴 아이템 */
-export const MobileMenuItem = styled.div`
+export const MobileMenuItem = styled.div<{ $active?: boolean }>`
   font-size: 18px;
-  color: #fff;
-  padding: 14px 0;
+  color: #e8e8e8;
+  padding: 20px 0;
   cursor: pointer;
+
+  font-weight: ${({ $active }) => ($active ? 700 : 400)};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#e8e8e8")};
+  text-shadow: ${({ $active }) =>
+    $active
+      ? "0 0 8px rgba(255, 255, 255, 0.6), 0 12px rgba(255, 200, 215, 0.45)"
+      : "none"};
 `;
 
 /* 서브메뉴 */
-export const MobileSubMenu = styled.div`
+export const MobileSubMenu = styled.div<{ $open: boolean }>`
   margin-left: 12px;
   margin-bottom: 8px;
+
+  max-height: ${({ $open }) => ($open ? "200px" : "0")};
+  opacity: ${({ $open }) => ($open ? 1 : 0)};
+  transform: translateY(${({ $open }) => ($open ? "0" : "-8px")});
 `;
 
 /* 서브 아이템 */
@@ -333,8 +344,22 @@ export const MobileSubItem = styled.div`
   color: rgba(255, 255, 255, 0.75);
   padding: 8px 0;
   cursor: pointer;
+`;
+
+export const MobileCloseButton = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+
+  opacity: 0.8;
 
   &:hover {
-    color: #fff;
+    opacity: 1;
   }
 `;

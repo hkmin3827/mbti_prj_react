@@ -217,7 +217,7 @@ export const BottomTitle = styled.h3`
   font-weight: 700;
   margin-bottom: 12px;
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 13px;
   }
 `;
 
@@ -251,5 +251,6 @@ export const BottomItem = styled.li`
   @media (max-width: 768px) {
     padding: 14px;
     border-radius: 12px;
+    font-size: 13x;
   }
 `;

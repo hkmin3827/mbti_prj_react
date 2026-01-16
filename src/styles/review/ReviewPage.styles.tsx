@@ -7,7 +7,7 @@ export const PageWrapper = styled.div`
   overflow-y: auto;
 
   @media (max-width: 768px) {
-    padding: 20px 12px;
+    padding: 10px 12px;
   }
 `;
 

@@ -20,6 +20,7 @@ import {
   MobileMenuItem,
   MobileSubMenu,
   MobileSubItem,
+  MobileCloseButton,
 } from "../../styles/TopBar.styles";
 import type { Category } from "../../types/category";
 import { useContext, useState } from "react";
@@ -43,6 +44,7 @@ export default function TopBar() {
     const context = params.get("context") ?? "SELF";
 
     navigate(`/recommend?category=${category}&context=${context}`);
+    setRecommendOpen(false);
   };
   return (
     <Wrapper>
@@ -88,32 +90,52 @@ export default function TopBar() {
           </ProfileWrapper>
         )}
 
-        <HamburgerButton onClick={() => setMenuOpen(true)}>☰</HamburgerButton>
+        <HamburgerButton
+          onClick={() => {
+            setMenuOpen(true);
+            setRecommendOpen(false);
+          }}
+        >
+          ☰
+        </HamburgerButton>
 
         {/* 모바일 오버레이 */}
-        <MobileOverlay $open={menuOpen} onClick={() => setMenuOpen(false)}>
+        <MobileOverlay
+          $open={menuOpen}
+          onClick={() => {
+            setMenuOpen(false);
+            setRecommendOpen(false);
+          }}
+        >
           <MobileMenu $open={menuOpen} onClick={(e) => e.stopPropagation()}>
+            <MobileCloseButton
+              onClick={() => {
+                setMenuOpen(false);
+                setRecommendOpen(false);
+              }}
+            >
+              ✕
+            </MobileCloseButton>
             <MobileMenuItem onClick={() => setRecommendOpen((prev) => !prev)}>
               Get Recommend
             </MobileMenuItem>
 
-            {recommendOpen && (
-              <MobileSubMenu>
-                <MobileSubItem onClick={() => handleSelectCategory("CAFE")}>
-                  카페
-                </MobileSubItem>
-                <MobileSubItem onClick={() => handleSelectCategory("FOOD")}>
-                  맛집
-                </MobileSubItem>
-                <MobileSubItem onClick={() => handleSelectCategory("COURSE")}>
-                  그 외
-                </MobileSubItem>
-              </MobileSubMenu>
-            )}
+            <MobileSubMenu $open={recommendOpen}>
+              <MobileSubItem onClick={() => handleSelectCategory("CAFE")}>
+                카페
+              </MobileSubItem>
+              <MobileSubItem onClick={() => handleSelectCategory("FOOD")}>
+                맛집
+              </MobileSubItem>
+              <MobileSubItem onClick={() => handleSelectCategory("COURSE")}>
+                그 외
+              </MobileSubItem>
+            </MobileSubMenu>
 
             <MobileMenuItem
               onClick={() => {
                 setMenuOpen(false);
+                setRecommendOpen(false);
                 navigate("/reviews");
               }}
             >
@@ -123,6 +145,7 @@ export default function TopBar() {
             <MobileMenuItem
               onClick={() => {
                 setMenuOpen(false);
+                setRecommendOpen(false);
                 navigate("/mypage");
               }}
             >
