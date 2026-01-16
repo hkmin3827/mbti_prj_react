@@ -308,6 +308,7 @@ export const MobileMenu = styled.div<{ $open: boolean }>`
   height: 100%;
   background: #000;
   padding: 20px;
+  z-index: 999;
 
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.3s ease;
