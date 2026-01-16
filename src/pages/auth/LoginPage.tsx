@@ -38,7 +38,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { fetchMe } = useContext(UserContext);
 
-  const accessToken = useAuthStore((state) => state.accessToken);
+  const accessToken = useAuthStore.getState().accessToken;
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 

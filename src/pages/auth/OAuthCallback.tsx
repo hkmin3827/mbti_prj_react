@@ -10,9 +10,11 @@ const OAuthCallback = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
   const clearAuth = useAuthStore((state) => state.clearAuth);
-
   const accessToken = useAuthStore((state) => state.accessToken);
 
+  useEffect(() => {
+    console.log("AccessToken", accessToken);
+  }, [accessToken]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -53,7 +55,6 @@ const OAuthCallback = () => {
     };
 
     processOAuthLogin();
-    console.log("AccessToken", accessToken);
   }, [navigate, setToken, fetchMe]);
 
   return null;
