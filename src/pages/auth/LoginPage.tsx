@@ -38,6 +38,8 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { fetchMe } = useContext(UserContext);
 
+  const accessToken = useAuthStore((state) => state.accessToken);
+
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +75,7 @@ const LoginPage = () => {
       } else {
         navigate("/");
       }
+      console.log("AccessToken", accessToken);
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
 
