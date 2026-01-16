@@ -11,13 +11,14 @@ import { RecommendList } from "../components/recommend/RecommendList";
 import { PlaceDetailCard } from "../components/recommend/PlaceDetailCard";
 import { SearchSuggestionList } from "../components/recommend/SearchSuggestionList";
 import type { Category } from "../types/category";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import type { MbtiContext } from "../constant/MbtiContext";
 import { recommendPlacesApi } from "../api/recommend.api";
 import type { KakaoPlace } from "../types/kakaoPlace";
 import { viewPlaceApi } from "../api/view.api";
 import { getPlaceDetailApi } from "../api/place.api";
 import type { PlaceDetail } from "../types/placeDetail";
+import type { LayoutOutletContext } from "../components/layout/Layout";
 
 // 검색 자동완성 전용
 export type KakaoPlaceSuggestion = {
@@ -29,6 +30,7 @@ export type KakaoPlaceSuggestion = {
 };
 
 export default function RecommendPage() {
+  const { menuOpen } = useOutletContext<LayoutOutletContext>();
   const PAGE_SIZE = 5;
 
   // URL params
@@ -312,19 +314,21 @@ export default function RecommendPage() {
 
   return (
     <div>
-      <ContextSelector
-        value={context}
-        onChange={(next) => {
-          if (next === context) return; // 동일하면 아무 것도 안 함
+      {!menuOpen && (
+        <ContextSelector
+          value={context}
+          onChange={(next) => {
+            if (next === context) return; // 동일하면 아무 것도 안 함
 
-          setSearchParams((prev) => {
-            prev.set("context", next);
-            return prev;
-          });
+            setSearchParams((prev) => {
+              prev.set("context", next);
+              return prev;
+            });
 
-          setPlaceDetail(null); // context 변경 시에만 실행
-        }}
-      />
+            setPlaceDetail(null); // context 변경 시에만 실행
+          }}
+        />
+      )}
       <PageGrid $hasDetail={!!placeDetail}>
         <LeftPanel>
           <div>

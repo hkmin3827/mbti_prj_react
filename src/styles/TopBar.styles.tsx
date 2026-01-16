@@ -292,7 +292,7 @@ export const HamburgerButton = styled.button`
 export const MobileOverlay = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
-  z-index: 300;
+  z-index: 200;
   background: rgba(0, 0, 0, 0.55);
   opacity: ${({ $open }) => ($open ? 1 : 0)};
   pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
@@ -301,14 +301,14 @@ export const MobileOverlay = styled.div<{ $open: boolean }>`
 
 /* 우측 슬라이드 메뉴 */
 export const MobileMenu = styled.div<{ $open: boolean }>`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   width: 220px;
   height: 100%;
   background: #000;
-  padding: 60px 20px;
-  z-index: 1000;
+  padding: 100px 20px;
+  z-index: 300;
 
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.3s ease;

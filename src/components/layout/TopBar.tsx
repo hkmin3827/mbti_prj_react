@@ -27,7 +27,12 @@ import { useContext, useState } from "react";
 import logo from "../../assets/logos/3D하트.png";
 import { UserContext } from "../../context/UserContext";
 
-export default function TopBar() {
+type TopBarProps = {
+  menuOpen: boolean;
+  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function TopBar({ menuOpen, setMenuOpen }: TopBarProps) {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,7 +42,6 @@ export default function TopBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // mobile
-  const [menuOpen, setMenuOpen] = useState(false);
   const [recommendOpen, setRecommendOpen] = useState(false);
 
   const handleSelectCategory = (category: Category) => {
