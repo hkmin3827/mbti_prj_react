@@ -221,6 +221,12 @@ MBTI Context 전환 시 데이터 일관성
 <img src="./docs/ui/profileEdit.png" width="600" />
 <img src="./docs/ui/mbtiselect.png" width="600" />
 
+### AdminPage
+
+<img src="./docs/ui/adminUsers.png" width="600" />
+
+<img src="./docs/ui/adminPlaces.png" width="600" />
+
 ## 모바일 UI Preview
 
 ### Recommend
