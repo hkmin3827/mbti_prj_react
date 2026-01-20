@@ -31,10 +31,9 @@ export const RightPanel = styled.div`
 
   position: relative;
 
-  /* 🔥 모바일 */
   @media (max-width: 768px) {
     position: fixed;
-    top: 64px; /* TopBar 높이 */
+    top: 64px;
     left: 0;
     right: 0;
     bottom: 0;

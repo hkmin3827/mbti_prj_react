@@ -70,7 +70,6 @@ export default function EditProfile() {
     setPreviewUrl(objectUrl);
   };
 
-  // validation
   const validate = (): boolean => {
     const newErrors: ValidationErrors = {};
 
@@ -93,7 +92,6 @@ export default function EditProfile() {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    // validation
     if (!validate()) {
       alert("이름 또는 전화번호 입력이 올바르지 않습니다. 다시 시도해주세요.");
       return;
@@ -121,7 +119,6 @@ export default function EditProfile() {
         profileImageUrl = fileUrl;
       }
 
-      // 3️백엔드에 프로필 저장
       await updateBasicProfileApi({
         name,
         telnum,

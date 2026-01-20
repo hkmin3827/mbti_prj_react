@@ -1,4 +1,3 @@
-// api/place.api.ts
 import axiosApi from "./AxiosApi";
 import type { PlaceDetail } from "../types/placeDetail";
 export const getPlaceDetailApi = async (

@@ -1,4 +1,3 @@
-// src/AppRoutes.tsx
 import { Routes, Route, useLocation } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
@@ -27,7 +26,6 @@ export default function AppRoutes() {
 
   return (
     <>
-      {/* 1️⃣ 배경 라우트 */}
       <Routes location={background || location}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />

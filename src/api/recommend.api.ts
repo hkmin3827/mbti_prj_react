@@ -17,8 +17,8 @@ interface KakaoDocument {
   category_group_code: string;
   address_name: string;
   road_address_name: string;
-  x: string; // lng
-  y: string; // lat
+  x: string;
+  y: string;
   place_url?: string;
   phone?: string;
 }
@@ -26,7 +26,7 @@ export interface RecommendPlacesParams {
   context?: MbtiContext; // SELF | PARTNER
   lat?: number;
   lng?: number;
-  category?: Category; // Category enum 문자열
+  category?: Category;
   size?: number;
   radius?: number;
 }

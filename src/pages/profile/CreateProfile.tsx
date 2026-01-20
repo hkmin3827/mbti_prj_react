@@ -54,19 +54,16 @@ export default function CreateProfile() {
     initializedRef.current = true;
   }, [user]);
 
-  // 파일 선택 시
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setProfileImageFile(file);
 
-    // 로컬 미리보기 URL 생성
     const objectUrl = URL.createObjectURL(file);
     setPreviewUrl(objectUrl);
   };
 
-  // validation
   const validate = (): boolean => {
     const newErrors: ValidationErrors = {};
 
@@ -89,7 +86,6 @@ export default function CreateProfile() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // validation
     if (!validate()) {
       alert("이름 또는 전화번호 입력이 올바르지 않습니다. 다시 시도해주세요.");
       return;
@@ -99,7 +95,6 @@ export default function CreateProfile() {
 
       // 새 이미지 선택한 경우만 S3 업로드
       if (profileImageFile) {
-        // presigned URL 요청
         const { uploadUrl, fileUrl } = await getPresignedUrlApi({
           folder: "profile",
           originalFileName: profileImageFile.name,
@@ -117,14 +112,13 @@ export default function CreateProfile() {
         profileImageUrl = fileUrl;
       }
 
-      // 3️백엔드에 프로필 저장
       await createBasicProfileApi({
         name,
         telnum,
         profileImage: profileImageUrl,
       });
 
-      navigate("/profile/mbtiselect"); // 원하는 경로로
+      navigate("/profile/mbtiselect");
     } catch (error) {
       handleApiError(error, {
         400: (msg) =>
@@ -169,7 +163,6 @@ export default function CreateProfile() {
               </UploadButton>
             </ImageUpload>
 
-            {/* 🔹 이름 */}
             <Label>이름</Label>
             <ProfileInput
               placeholder="이름"
@@ -181,7 +174,6 @@ export default function CreateProfile() {
             />
             {errors.name && <ErrorText>{errors.name}</ErrorText>}
 
-            {/* 🔹 전화번호 */}
             <Label>전화번호</Label>
             <ProfileInput
               placeholder="전화번호 (010xxxxxxxx)"

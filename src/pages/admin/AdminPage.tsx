@@ -1,4 +1,3 @@
-// src/pages/admin/AdminPage.tsx
 import { useContext, useEffect, useState } from "react";
 import {
   Container,
@@ -26,8 +25,6 @@ import {
 import type { Category } from "../../types/category";
 import { UserContext } from "../../context/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
-
-/* ================= TYPES ================= */
 
 interface AdminUser {
   id: number;
@@ -59,8 +56,6 @@ interface AdminReview {
   };
 }
 
-/* ================= COMPONENT ================= */
-
 type TabType = "users" | "places" | "reviews";
 
 export default function AdminPage() {
@@ -77,7 +72,6 @@ export default function AdminPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  /* ================= TAB CHANGE ================= */
 
   const changeTab = (next: TabType) => {
     setTab(next);
@@ -87,8 +81,6 @@ export default function AdminPage() {
     setPlaces([]);
     setReviews([]);
   };
-
-  /* ================= USERS ================= */
 
   useEffect(() => {
     if (user?.role !== "ADMIN") {
@@ -117,8 +109,6 @@ export default function AdminPage() {
       prev.map((u) => (u.id === user.id ? { ...u, active: !u.active } : u))
     );
   };
-
-  /* ================= PLACES ================= */
 
   useEffect(() => {
     if (tab !== "places") return;
@@ -160,7 +150,7 @@ export default function AdminPage() {
       alert(
         isRestoring
           ? "플레이스 활성화에 실패했습니다."
-          : "플레이스 비활성화에 실패했습니다."
+          : "플레이스 비활성화에 실패했습니다." + e
       );
     }
   };
@@ -180,11 +170,9 @@ export default function AdminPage() {
       // 리스트에서 제거
       setPlaces((prev) => prev.filter((p) => p.id !== place.id));
     } catch (e) {
-      alert("플레이스 영구 삭제에 실패했습니다.");
+      alert("플레이스 영구 삭제에 실패했습니다." + e);
     }
   };
-
-  /* ================= REVIEWS ================= */
 
   useEffect(() => {
     if (tab !== "reviews") return;
@@ -233,7 +221,6 @@ export default function AdminPage() {
         />
       </SearchRow>
 
-      {/* ================= USERS TABLE ================= */}
       {tab === "users" && (
         <Table>
           <thead>
@@ -266,7 +253,6 @@ export default function AdminPage() {
         </Table>
       )}
 
-      {/* ================= PLACES TABLE ================= */}
       {tab === "places" && (
         <Table>
           <thead>
@@ -325,7 +311,6 @@ export default function AdminPage() {
         </Table>
       )}
 
-      {/* ================= REVIEWS TABLE ================= */}
       {tab === "reviews" && (
         <Table>
           <thead>
@@ -358,7 +343,7 @@ export default function AdminPage() {
                   <ActionBtn
                     danger
                     onClick={(e) => {
-                      e.stopPropagation(); // Drawer 열림 방지
+                      e.stopPropagation();
                       deleteReview(r.id);
                     }}
                   >
@@ -371,7 +356,6 @@ export default function AdminPage() {
         </Table>
       )}
 
-      {/* ================= PAGINATION ================= */}
       <Pagination>
         <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
           ◀

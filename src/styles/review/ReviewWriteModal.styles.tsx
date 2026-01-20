@@ -30,7 +30,7 @@ export const Modal = styled.div`
 export const ScrollArea = styled.div`
   height: 100%;
   overflow-y: auto;
-  padding: 32px 24px 96px; /* ⭐ 버튼 높이만큼 확보 */
+  padding: 32px 24px 96px;
 
   &::-webkit-scrollbar {
     width: 6px;

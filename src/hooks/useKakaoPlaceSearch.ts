@@ -1,7 +1,4 @@
-export const searchPlaces = (
-  keyword: string
-  // ): Promise<kakao.maps.services.PlacesSearchResult> => {
-): Promise<unknown> => {
+export const searchPlaces = (keyword: string): Promise<unknown> => {
   return new Promise((resolve, reject) => {
     const ps = new window.kakao.maps.services.Places();
 

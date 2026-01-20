@@ -8,7 +8,7 @@ export const RowWrapper = styled.div`
 `;
 
 export const ArrowButton = styled.button`
-  flex: 0 0 40px; /* 고정 */
+  flex: 0 0 40px;
   height: 36px;
   border-radius: 999px;
   border: none;

@@ -15,7 +15,7 @@ export const Card = styled.article`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   &:hover {
-    transform: translateY(-3px); /* ⭐ 위로 살짝 */
+    transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
   @media (max-width: 768px) {
@@ -149,7 +149,7 @@ export const MetaRow = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* ⭐ 우측 정렬 */
+  align-items: flex-end;
   gap: 6px;
 
   .mbti-row {
@@ -165,13 +165,13 @@ export const MetaText = styled.span`
 
 export const ImageArea = styled.div<{ $hasImage: boolean }>`
   width: 100%;
-  aspect-ratio: 4 / 3; /* ⭐ 실무 핵심 */
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* ⭐ 이미지 없을 때도 공간 유지 */
+  /* 이미지 없을 때도 공간 유지 */
   background: ${({ $hasImage }) => ($hasImage ? "transparent" : "transparent")};
 
   @media (max-width: 768px) {
@@ -194,7 +194,7 @@ export const Thumbnail = styled.img`
   }
 `;
 export const Bottom = styled.div`
-  margin-top: auto; /* ⭐ 핵심 */
+  margin-top: auto;
   display: flex;
   gap: 20px;
 `;

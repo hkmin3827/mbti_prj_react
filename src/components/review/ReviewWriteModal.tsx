@@ -87,7 +87,7 @@ export function ReviewWriteModal({ onClose, onSuccess }: any) {
       onSuccess?.();
       onClose();
     } catch (e) {
-      alert("리뷰 작성에 실패하였습니다. 필수값은 반드시 입력해주세요.");
+      alert("리뷰 작성에 실패하였습니다. 필수값은 반드시 입력해주세요." + e);
     }
   };
 

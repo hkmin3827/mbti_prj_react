@@ -102,7 +102,7 @@ export default function RecommendPage() {
 
   const handlePlaceCardClick = async (place: KakaoPlace) => {
     try {
-      // 1️⃣ view API (Place 생성 + 로그)
+      // view API (Place 생성 + 로그)
       const { placeId } = await viewPlaceApi(
         {
           kakaoPlaceId: String(place.id),
@@ -118,13 +118,13 @@ export default function RecommendPage() {
         context
       );
 
-      // 2️⃣ 내부 Place 상세 조회
+      //  내부 Place 상세 조회
       const detail: PlaceDetail = await getPlaceDetailApi(placeId, context);
 
-      // 3️⃣ 오른쪽 상세 패널만 갱신
+      //  오른쪽 상세 패널만 갱신
       setPlaceDetail(detail);
 
-      // 4️⃣ 지도/마커 선택 동기화
+      //  지도/마커 선택 동기화
       selectKakaoPlace(place);
     } catch (e: any) {
       const status = e?.response?.status;
@@ -176,18 +176,12 @@ export default function RecommendPage() {
         phone: doc.phone,
       }));
 
-      // 전체 추천 저장
       setAllPlaces(mapped);
 
-      // 페이지 초기화
       setPage(0);
 
       redrawMarkers(mapped);
 
-      // 첫 페이지 리스트
-      // setPlaces(mapped.slice(0, PAGE_SIZE));
-
-      // 추천 새로 생성되면 상세 선택 초기화가 안전
       setPlaceDetail(null);
     } catch (e) {
       console.error("추천 API 실패", e);

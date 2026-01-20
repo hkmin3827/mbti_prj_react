@@ -1,7 +1,7 @@
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 interface Props {
-  rating: number; // 1 ~ 5
+  rating: number;
 }
 
 export function RatingStars({ rating }: Props) {

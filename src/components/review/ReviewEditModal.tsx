@@ -72,7 +72,7 @@ export function ReviewEditModal({
       rating,
       content,
       reviewImageUrl,
-      removeImage, // ⭐ 필수
+      removeImage,
     });
 
     onSuccess();

@@ -1,4 +1,3 @@
-// src/styles/review/ReviewDetailDrawer.styles.ts
 import styled, { keyframes } from "styled-components";
 
 const slideIn = keyframes`

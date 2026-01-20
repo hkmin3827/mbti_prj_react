@@ -1,4 +1,3 @@
-// src/styles/RecommendList.styles.ts
 import styled from "styled-components";
 
 export const ListWrapper = styled.div`

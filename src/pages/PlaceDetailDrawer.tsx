@@ -76,7 +76,7 @@ export default function PlaceDetailDrawer() {
     setBookmarked(place.bookmarked ?? false);
   }, [place]);
 
-  /* 3️⃣ 카카오맵 + 마커 */
+  // 카카오맵 + 마커
   useEffect(() => {
     if (!place || !mapRef.current) return;
     if (!window.kakao) return;

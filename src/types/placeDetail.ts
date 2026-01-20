@@ -1,4 +1,4 @@
-// 2️⃣ 내부 Place 상세용 (우측 패널)
+// 내부 Place 상세용 (우측 패널)
 export type PlaceDetail = {
   id: number; // 내부 placeId
   name: string;

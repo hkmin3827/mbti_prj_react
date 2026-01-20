@@ -13,7 +13,7 @@ export const MyViewCard = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   &:hover {
-    transform: translateY(-3px); /* ⭐ 위로 살짝 */
+    transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
 
@@ -41,7 +41,7 @@ export const ReviewCard = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   &:hover {
-    transform: translateY(-3px); /* ⭐ 위로 살짝 */
+    transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
 

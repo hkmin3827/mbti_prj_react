@@ -1,7 +1,5 @@
-// src/styles/HomePage.styles.ts
 import styled from "styled-components";
 
-/* 전체 */
 export const HomeContainer = styled.div`
   margin: 0 auto;
   padding: 100px 60px;
@@ -11,7 +9,6 @@ export const HomeContainer = styled.div`
   }
 `;
 
-/* 상단 행 */
 export const TopRow = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -28,7 +25,6 @@ export const TopRow = styled.div`
   }
 `;
 
-/* 공통 패널 베이스 */
 const PanelBase = styled.div`
   display: flex;
   align-items: center;
@@ -40,7 +36,6 @@ const PanelBase = styled.div`
   }
 `;
 
-/* LEFT / RIGHT */
 export const LeftPanel = styled(PanelBase)`
   display: flex;
   flex-direction: column;
@@ -59,7 +54,6 @@ export const RightPanel = styled(PanelBase)`
   }
 `;
 
-/* 카드 */
 export const Card = styled.div`
   width: 80%;
   border-radius: 28px;
@@ -132,7 +126,7 @@ export const CardItem = styled.li`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   &:hover {
-    transform: translateY(-3px); /* ⭐ 위로 살짝 */
+    transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
   @media (max-width: 768px) {
@@ -199,7 +193,6 @@ export const RightIcon = styled.span`
     font-size: 50px;
   }
 `;
-/* 하단 카드 */
 export const BottomCard = styled.div`
   width: 90%;
   margin: 0 auto;
@@ -245,7 +238,7 @@ export const BottomItem = styled.li`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   &:hover {
-    transform: translateY(-3px); /* ⭐ 위로 살짝 */
+    transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
   @media (max-width: 768px) {

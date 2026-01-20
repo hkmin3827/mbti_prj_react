@@ -11,7 +11,6 @@ export const SuggestionWrapper = styled.div`
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
-  /* 스크롤바 */
   &::-webkit-scrollbar {
     width: 8px;
   }

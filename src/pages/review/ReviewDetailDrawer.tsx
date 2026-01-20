@@ -68,11 +68,11 @@ export default function ReviewDetailDrawer() {
                 textDecoration: "underline",
               }}
               onClick={(e) => {
-                e.stopPropagation(); // Drawer 닫힘 방지
+                e.stopPropagation();
                 navigate(`/places/${review.place.id}`, {
-                  replace: true, // 🔥 리뷰 드로어 제거
+                  replace: true, // 리뷰 드로어 제거
                   state: {
-                    background: pageBackground, // 🔥 항상 페이지
+                    background: pageBackground, // 항상 페이지
                   },
                 });
               }}
