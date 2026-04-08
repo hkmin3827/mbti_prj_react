@@ -65,7 +65,26 @@ MBTI 기준이 흔들리면 추천 결과의 의미가 사라지기 때문에
 - Zustand + persist 미들웨어로 로그인 상태 유지
 - Axios 인터셉터를 통해 인증 헤더 자동 주입
 
-## 6. 추천 페이지 아키텍처 (핵심)
+## 6. 추천 페이지 Architecture
+
+### State Management Strategy
+
+- URL Query: context, category (추천 기준)
+- Local UI State: keyword, page, placeDetail
+- Non-React Objects: Kakao Map / Marker → useRef 관리
+
+### Map SDK Integration
+
+- Kakao Map 인스턴스는 useRef로 생명주기 분리
+- Marker Map을 Map 구조로 관리하여 O(1) 접근
+- 활성 마커 별도 관리로 UI 동기화
+
+### Interaction Flow
+
+1. 위치 기준 추천 API 호출
+2. 지도 마커 렌더링
+3. 리스트 ↔ 지도 ↔ 상세 패널 동기화
+4. URL 변경 시 추천 재조회
 
 ### RecommendPage
 
@@ -81,6 +100,16 @@ MBTI 기준이 흔들리면 추천 결과의 의미가 사라지기 때문에
 - 서버 상태는 react-query로만 관리
 - UI 컴포넌트는 서버 상태를 소유하지 않음
 
+### SearchBar
+
+const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+const skipNextEffectRef = useRef(false);
+
+- 자동완성과 직접 선택(searchByPlace) 시 effect 중복 실행 방지
+
+- skipNextEffectRef로 의도된 side effect만 허용
+
 ### 추천 흐름 제어
 
 - 검색 조건 입력 → 추천 API 요청 → 추천 리스트 렌더링
@@ -92,6 +121,12 @@ MBTI 기준이 흔들리면 추천 결과의 의미가 사라지기 때문에
 
 사용자 행동이 발생하면
 추천 결과에 즉시 반영되는 흐름을 유지하도록 구성했습니다.
+
+### Performance & UX Considerations
+
+- 자동완성 debounce 처리
+- 불필요한 effect 실행 방지
+- map.relayout() 타이밍 제어
 
 ### 🔄 서버 상태 관리 전략 - react-query 사용 이유
 
@@ -105,6 +140,7 @@ useQuery({
 queryKey: ["recommend", context, params],
 queryFn: fetchRecommendPlaces,
 });
+추천 기준(context, category)은 URL Query Parameter로 관리
 
 좋아요/북마크 발생 시 관련 쿼리만 선택적으로 invalidate
 
